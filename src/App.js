@@ -1,11 +1,9 @@
+import React from "react";
 import "./App.css";
+import HtmlDefault from "./Components/htmlDefault";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header"></header>
-    </div>
-  );
+  return <HtmlDefault />;
 }
 
 export default App;
