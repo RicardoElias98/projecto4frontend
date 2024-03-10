@@ -1,7 +1,7 @@
 import React from "react";
-import "./htmlDefault.css";
+import "./HtmlDefault.css";
 
-function htmlDefault() {
+function HtmlDefault() {
   return (
     <div className="App" id="outer-container">
       <header className="header" id="header-app">
@@ -22,4 +22,4 @@ function htmlDefault() {
   );
 }
 
-export default htmlDefault;
+export default HtmlDefault;

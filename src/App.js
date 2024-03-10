@@ -1,9 +1,8 @@
 import React from "react";
 import "./App.css";
-import HtmlDefault from "./Components/htmlDefault";
+import InitialPage from "./Pages/InitialPage.jsx";
 
 function App() {
-  return <HtmlDefault />;
+  return <InitialPage />;
 }
-
 export default App;
