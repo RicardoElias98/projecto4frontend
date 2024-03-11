@@ -9,6 +9,22 @@
   background-color: #3498db;
   color: #fff;
   padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.header h1 {
+  text-align: center;
+  margin-left: auto;
+}
+
+.header button {
+  margin-left: auto;
+  border-radius: 8px;
+  padding: 8px;
+  display: block;
+  border-radius: 8px;
+  border: grey solid;
 }
 
 .container {
