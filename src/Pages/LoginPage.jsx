@@ -2,9 +2,11 @@ import React from "react";
 import "./LoginPage.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { userStore } from "../stores/UserStore";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const updateToken = userStore((state) => state.updateToken);
 
   //Dados do formulário
   const [formData, setFormData] = useState({
@@ -36,12 +38,14 @@ function LoginPage() {
         username: formData.username,
         password: formData.password,
       },
-    }).then(function (response) {
+    }).then(async function (response) {
       if (response.status === 403) {
         alert("User is not active");
       } else if (response.status === 404) {
         alert("Username or password are incorrect");
       } else if (response.status === 200) {
+        const token = await response.text();
+        updateToken(token);
         loginSucess();
       }
     });
