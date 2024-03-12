@@ -1,5 +1,5 @@
 import React from "react";
-import "./HtmlDefault.css";
+import "../general.css";
 import LogoutButton from "./LogoutButton";
 
 import AsideAddTask from "./AsideAddTask";

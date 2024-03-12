@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import "../general.css";
 
 function AsideAddTask() {
   const [formData, setFormData] = useState({

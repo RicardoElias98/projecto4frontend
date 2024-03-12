@@ -1,5 +1,5 @@
 import React from "react";
-import "./LoginPage.css";
+import "../general.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { userStore } from "../stores/UserStore";

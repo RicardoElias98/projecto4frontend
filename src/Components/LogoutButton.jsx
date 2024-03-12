@@ -1,4 +1,5 @@
 import React from "react";
+import "../general.css";
 import { useNavigate } from "react-router-dom";
 import { userStore } from "../stores/UserStore";
 
