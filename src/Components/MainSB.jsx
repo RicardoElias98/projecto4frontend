@@ -1,6 +1,51 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import "../general.css";
+import { userStore } from "../stores/UserStore";
 
 function MainSB() {
+  const token = userStore.getState().token;
+  const [tasks, setTasks] = useState([]);
+  const [todoTasks, setTodoTasks] = useState([]);
+  const [doingTasks, setDoingTasks] = useState([]);
+  const [doneTasks, setDoneTasks] = useState([]);
+  console.log("INICIAL", todoTasks);
+
+  useEffect(() => {
+    displayTasks();
+  }, []);
+
+  const displayTasks = () => {
+    fetch("http://localhost:8080/project4backend/rest/task/all", {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        token: token,
+      },
+    }).then(async function (response) {
+      if (response.status === 401) {
+        alert("Unauthorized");
+      } else if (response.status === 200) {
+        console.log("tasks found");
+        const tasksData = await response.json();
+        setTasks(tasksData);
+        console.log("TasksData", tasksData);
+        setTodoTasks(filterTasksByStatus(10));
+        setDoingTasks(filterTasksByStatus(20));
+        setDoneTasks(filterTasksByStatus(30));
+        console.log("todo", todoTasks);
+        console.log("doing", doingTasks);
+        console.log("done", doneTasks);
+      }
+    });
+  };
+
+  const filterTasksByStatus = (status) => {
+    return tasks.filter((task) => task.status === status);
+  };
+
   return (
     <>
       <div className="total-column">
@@ -34,7 +79,7 @@ function MainSB() {
           </section>
         </div>
       </div>
-      </>
+    </>
   );
 }
 
