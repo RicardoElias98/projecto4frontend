@@ -30,16 +30,6 @@
   z-index: 1;
 }
 
-.button {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  box-sizing: border-box;
-  display: block;
-  border-radius: 8px;
-  border: grey solid;
-}
-
 .button-container {
   display: flex;
   justify-content: center;
