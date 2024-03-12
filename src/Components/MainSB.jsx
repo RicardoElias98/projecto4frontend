@@ -10,7 +10,7 @@ function MainSB() {
   const [todoTasks, setTodoTasks] = useState([]);
   const [doingTasks, setDoingTasks] = useState([]);
   const [doneTasks, setDoneTasks] = useState([]);
-  console.log("INICIAL", todoTasks);
+  
 
   useEffect(() => {
     displayTasks();
@@ -32,9 +32,6 @@ function MainSB() {
         const tasksData = await response.json();
         setTasks(tasksData);
         console.log("TasksData", tasksData);
-        setTodoTasks(filterTasksByStatus(10));
-        setDoingTasks(filterTasksByStatus(20));
-        setDoneTasks(filterTasksByStatus(30));
         console.log("todo", todoTasks);
         console.log("doing", doingTasks);
         console.log("done", doneTasks);
@@ -42,9 +39,7 @@ function MainSB() {
     });
   };
 
-  const filterTasksByStatus = (status) => {
-    return tasks.filter((task) => task.status === status);
-  };
+  
 
   return (
     <>
