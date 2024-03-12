@@ -6,50 +6,206 @@ import { userStore } from "../stores/UserStore";
 
 function MainSB() {
   const token = userStore.getState().token;
-  const [tasks, setTasks] = useState([]);
   const [todoTasks, setTodoTasks] = useState([]);
   const [doingTasks, setDoingTasks] = useState([]);
   const [doneTasks, setDoneTasks] = useState([]);
-  
 
   useEffect(() => {
-    displayTasks();
+    displayTasksTodo();
+    displayTasksDoing();
+    displayTasksDone();
   }, []);
 
-  const displayTasks = () => {
-    fetch("http://localhost:8080/project4backend/rest/task/all", {
+  useEffect(() => {
+    const handleDragStart = (event, taskId) => {
+      event.dataTransfer.setData("taskId", taskId);
+    };
+
+    const handleDragOver = (event) => {
+      event.preventDefault();
+    };
+
+    const handleDrop = (event, status) => {
+      event.preventDefault();
+      const taskId = event.dataTransfer.getData("taskId");
+      const taskElement = document.getElementById(taskId);
+      const columnId = status + "-column";
+      const column = document.getElementById(columnId);
+      column.appendChild(taskElement);
+    };
+
+   
+    /* TO-DO */
+    const todoColumn = document.getElementById("todo-column");
+    todoColumn.innerHTML = "";
+    todoTasks.forEach((task) => {
+      const taskElement = document.createElement("div");
+
+      taskElement.setAttribute("id", task.id);
+      taskElement.setAttribute("draggable", "true");
+
+      taskElement.classList.add("task");
+
+      taskElement.style.margin = "5px 10px";
+
+      if (task.priority == 100) {
+        taskElement.style.backgroundColor = "#5cbf8a"; // Dark green
+      } else if (task.priority == 200) {
+        taskElement.style.backgroundColor = "#d4d17a"; // Darker yellow
+      } else if (task.priority == 300) {
+        taskElement.style.backgroundColor = "#f58a8a"; // Dark red
+      }
+      taskElement.style.textAlign = "center";
+      taskElement.textContent = task.title;
+
+      taskElement.addEventListener("dragstart", (event) =>
+        handleDragStart(event, task.id)
+      );
+      taskElement.addEventListener("dragover", handleDragOver);
+
+      document.getElementById("todo-column").appendChild(taskElement);
+    });
+
+    /* DOING */
+    const doingColumn = document.getElementById("doing-column");
+    doingColumn.innerHTML = "";
+    doingTasks.forEach((task) => {
+      const taskElement = document.createElement("div");
+
+      taskElement.setAttribute("id", task.id);
+      taskElement.setAttribute("draggable", "true");
+
+      taskElement.classList.add("task");
+
+      taskElement.style.margin = "5px 10px";
+
+      if (task.priority == 100) {
+        taskElement.style.backgroundColor = "#5cbf8a"; // Dark green
+      } else if (task.priority == 200) {
+        taskElement.style.backgroundColor = "#d4d17a"; // Darker yellow
+      } else if (task.priority == 300) {
+        taskElement.style.backgroundColor = "#f58a8a"; // Dark red
+      }
+      taskElement.style.textAlign = "center";
+      taskElement.textContent = task.title;
+
+      taskElement.addEventListener("dragstart", (event) =>
+        handleDragStart(event, task.id)
+      );
+      taskElement.addEventListener("dragover", handleDragOver);
+
+      document.getElementById("doing-column").appendChild(taskElement);
+    });
+
+    /* DONE */
+    const doneColumn = document.getElementById("done-column");
+    doneColumn.innerHTML = "";
+    doneTasks.forEach((task) => {
+      const taskElement = document.createElement("div");
+
+      taskElement.setAttribute("id", task.id);
+      taskElement.setAttribute("draggable", "true");
+
+      taskElement.classList.add("task");
+
+      taskElement.style.margin = "5px 10px";
+
+      if (task.priority == 100) {
+        taskElement.style.backgroundColor = "#5cbf8a"; // Dark green
+      } else if (task.priority == 200) {
+        taskElement.style.backgroundColor = "#d4d17a"; // Darker yellow
+      } else if (task.priority == 300) {
+        taskElement.style.backgroundColor = "#f58a8a"; // Dark red
+      }
+      taskElement.style.textAlign = "center";
+      taskElement.textContent = task.title;
+
+      taskElement.addEventListener("dragstart", (event) =>
+        handleDragStart(event, task.id)
+      );
+      taskElement.addEventListener("dragover", handleDragOver);
+
+      document.getElementById("done-column").appendChild(taskElement);
+    });
+
+    const columns = document.querySelectorAll(".board-container");
+    columns.forEach((column) => {
+      column.addEventListener("dragover", handleDragOver);
+      column.addEventListener("drop", (event) =>
+        handleDrop(event, column.id.split("-")[0])
+      );
+    });
+  }, [todoTasks, doingTasks, doneTasks]);
+
+  const displayTasksTodo = () => {
+    fetch("http://localhost:8080/project4backend/rest/task/status", {
       method: "GET",
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",
         token: token,
+        status: 10,
       },
     }).then(async function (response) {
       if (response.status === 401) {
         alert("Unauthorized");
       } else if (response.status === 200) {
-        console.log("tasks found");
         const tasksData = await response.json();
-        setTasks(tasksData);
-        console.log("TasksData", tasksData);
-        console.log("todo", todoTasks);
-        console.log("doing", doingTasks);
-        console.log("done", doneTasks);
+        setTodoTasks(tasksData);
+        console.log("To Do", todoTasks);
       }
     });
   };
 
-  
+  const displayTasksDoing = () => {
+    fetch("http://localhost:8080/project4backend/rest/task/status", {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        token: token,
+        status: 20,
+      },
+    }).then(async function (response) {
+      if (response.status === 401) {
+        alert("Unauthorized");
+      } else if (response.status === 200) {
+        const tasksData = await response.json();
+        setDoingTasks(tasksData);
+        console.log("Doing", doingTasks);
+      }
+    });
+  };
+
+  const displayTasksDone = () => {
+    fetch("http://localhost:8080/project4backend/rest/task/status", {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        token: token,
+        status: 30,
+      },
+    }).then(async function (response) {
+      if (response.status === 401) {
+        alert("Unauthorized");
+      } else if (response.status === 200) {
+        const tasksData = await response.json();
+        setDoneTasks(tasksData);
+        console.log("Done", doneTasks);
+      }
+    });
+  };
 
   return (
-    <>
+    <div className="board">
       <div className="total-column">
         <div className="column-header" id="to-do-header">
           <h2>To Do</h2>
         </div>
 
-        <div className="board-container" id="to-do-container">
-          <section className="board-column" id="to-do-column">
+        <div className="board-container" id="todo-container">
+          <section className="board-column" id="todo-column">
             {/* tasks */}
           </section>
         </div>
@@ -74,7 +230,7 @@ function MainSB() {
           </section>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -5,6 +5,12 @@
   flex-direction: column;
 }
 
+.board {
+  height: 80vh;
+  width: 100%;
+  display: flex;
+}
+
 .modal {
   display: block;
   position: fixed;
@@ -126,6 +132,7 @@ input {
   padding: 10px;
   display: flex;
   align-items: center;
+  height: 15vh;
 }
 
 .header h1 {
@@ -186,6 +193,7 @@ input {
   color: #fff;
   padding: 10px;
   height: 10px;
+  height: 5vh;
 }
 
 .board-container {
@@ -194,8 +202,9 @@ input {
   background-color: whitesmoke;
   border-radius: 8px;
   align-items: center;
-  /*width: 350px;*/
-  display: flex;
+  overflow-y: auto;
+  height: 100%;
+  align-items: center;
 }
 
 .column-header {
@@ -210,4 +219,24 @@ input {
   flex: 1;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  width: 30%;
+}
+
+.task {
+  width: 90%;
+  height: 70px;
+  border: 2px solid #205d88;
+  margin: 12px;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  justify-content: center;
+  text-shadow: -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333,
+    1px 1px 0 #333;
 }
