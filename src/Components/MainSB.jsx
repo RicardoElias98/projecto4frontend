@@ -6,6 +6,7 @@ import { userStore } from "../stores/UserStore";
 
 function MainSB() {
   const token = userStore.getState().token;
+  const [counter, setCounter] = useState([]);
   const [todoTasks, setTodoTasks] = useState([]);
   const [doingTasks, setDoingTasks] = useState([]);
   const [doneTasks, setDoneTasks] = useState([]);
@@ -43,7 +44,7 @@ function MainSB() {
     displayTasksTodo();
     displayTasksDoing();
     displayTasksDone();
-  }, []);
+  }, [counter]);
 
   useEffect(() => {
     const handleDragStart = (event, taskId) => {
@@ -61,6 +62,7 @@ function MainSB() {
       const columnId = status + "-column";
       const column = document.getElementById(columnId);
       updateStatus(statusMapping[status], taskId);
+      setCounter(counter + 1);
       column.appendChild(taskElement);
     };
 
