@@ -9,6 +9,35 @@ function MainSB() {
   const [todoTasks, setTodoTasks] = useState([]);
   const [doingTasks, setDoingTasks] = useState([]);
   const [doneTasks, setDoneTasks] = useState([]);
+  const statusMapping = {
+    todo: 10,
+    doing: 20,
+    done: 30,
+  };
+
+  const updateStatus = (newStatus, idTask) => {
+    console.log(token);
+    fetch(
+      `http://localhost:8080/project4backend/rest/task/changeStatus/${idTask}`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+          token: token,
+        },
+        body: JSON.stringify({ status: newStatus }),
+      }
+    ).then(async function (response) {
+      if (response.status === 401) {
+        console.log("Unauthorized");
+      } else if (response.status === 400) {
+        console.log("Failed. Status not changed");
+      } else if (response.status === 200) {
+        console.log("status changed to" + newStatus);
+      }
+    });
+  };
 
   useEffect(() => {
     displayTasksTodo();
@@ -31,10 +60,10 @@ function MainSB() {
       const taskElement = document.getElementById(taskId);
       const columnId = status + "-column";
       const column = document.getElementById(columnId);
+      updateStatus(statusMapping[status], taskId);
       column.appendChild(taskElement);
     };
 
-   
     /* TO-DO */
     const todoColumn = document.getElementById("todo-column");
     todoColumn.innerHTML = "";
@@ -62,6 +91,9 @@ function MainSB() {
         handleDragStart(event, task.id)
       );
       taskElement.addEventListener("dragover", handleDragOver);
+      taskElement.addEventListener("click", () => {
+        console.log("Status da tarefa:", task.status);
+      });
 
       document.getElementById("todo-column").appendChild(taskElement);
     });
@@ -93,6 +125,9 @@ function MainSB() {
         handleDragStart(event, task.id)
       );
       taskElement.addEventListener("dragover", handleDragOver);
+      taskElement.addEventListener("click", () => {
+        console.log("Status da tarefa:", task.status);
+      });
 
       document.getElementById("doing-column").appendChild(taskElement);
     });
@@ -124,6 +159,9 @@ function MainSB() {
         handleDragStart(event, task.id)
       );
       taskElement.addEventListener("dragover", handleDragOver);
+      taskElement.addEventListener("click", () => {
+        console.log("Status da tarefa:", task.status);
+      });
 
       document.getElementById("done-column").appendChild(taskElement);
     });
