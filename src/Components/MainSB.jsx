@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import "../general.css";
 import { userStore } from "../stores/UserStore";
+import TaskInfo from "./TaskInfo";
 
 function MainSB() {
   const token = userStore.getState().token;
@@ -46,24 +47,22 @@ function MainSB() {
     displayTasksDone();
   }, [counter]);
 
-  useEffect(() => {
+  useEffect(() => {             
     const handleDragStart = (event, taskId) => {
       event.dataTransfer.setData("taskId", taskId);
     };
 
     const handleDragOver = (event) => {
       event.preventDefault();
+      
     };
 
     const handleDrop = (event, status) => {
       event.preventDefault();
       const taskId = event.dataTransfer.getData("taskId");
-      const taskElement = document.getElementById(taskId);
-      const columnId = status + "-column";
-      const column = document.getElementById(columnId);
       updateStatus(statusMapping[status], taskId);
       setCounter(counter + 1);
-      column.appendChild(taskElement);
+      
     };
 
     /* TO-DO */
@@ -93,8 +92,8 @@ function MainSB() {
         handleDragStart(event, task.id)
       );
       taskElement.addEventListener("dragover", handleDragOver);
-      taskElement.addEventListener("click", () => {
-        console.log("Status da tarefa:", task.status);
+      taskElement.addEventListener("dblclick", () => {
+       //OPEN MODAL DO TASKINFO
       });
 
       document.getElementById("todo-column").appendChild(taskElement);
