@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import "../general.css";
 import { userStore } from "../stores/UserStore";
 import TaskInfo from "./TaskInfo";
+import Task from "./Task";
 
 function MainSB() {
   const token = userStore.getState().token;
@@ -47,135 +48,6 @@ function MainSB() {
     displayTasksDone();
   }, [counter]);
 
-  useEffect(() => {             
-    const handleDragStart = (event, taskId) => {
-      event.dataTransfer.setData("taskId", taskId);
-    };
-
-    const handleDragOver = (event) => {
-      event.preventDefault();
-      
-    };
-
-    const handleDrop = (event, status) => {
-      event.preventDefault();
-      const taskId = event.dataTransfer.getData("taskId");
-      updateStatus(statusMapping[status], taskId);
-      setCounter(counter + 1);
-      
-    };
-
-    /* TO-DO */
-    const todoColumn = document.getElementById("todo-column");
-    todoColumn.innerHTML = "";
-    todoTasks.forEach((task) => {
-      const taskElement = document.createElement("div");
-
-      taskElement.setAttribute("id", task.id);
-      taskElement.setAttribute("draggable", "true");
-
-      taskElement.classList.add("task");
-
-      taskElement.style.margin = "5px 10px";
-
-      if (task.priority == 100) {
-        taskElement.style.backgroundColor = "#5cbf8a"; // Dark green
-      } else if (task.priority == 200) {
-        taskElement.style.backgroundColor = "#d4d17a"; // Darker yellow
-      } else if (task.priority == 300) {
-        taskElement.style.backgroundColor = "#f58a8a"; // Dark red
-      }
-      taskElement.style.textAlign = "center";
-      taskElement.textContent = task.title;
-
-      taskElement.addEventListener("dragstart", (event) =>
-        handleDragStart(event, task.id)
-      );
-      taskElement.addEventListener("dragover", handleDragOver);
-      taskElement.addEventListener("dblclick", () => {
-       //OPEN MODAL DO TASKINFO
-      });
-
-      document.getElementById("todo-column").appendChild(taskElement);
-    });
-
-    /* DOING */
-    const doingColumn = document.getElementById("doing-column");
-    doingColumn.innerHTML = "";
-    doingTasks.forEach((task) => {
-      const taskElement = document.createElement("div");
-
-      taskElement.setAttribute("id", task.id);
-      taskElement.setAttribute("draggable", "true");
-
-      taskElement.classList.add("task");
-
-      taskElement.style.margin = "5px 10px";
-
-      if (task.priority == 100) {
-        taskElement.style.backgroundColor = "#5cbf8a"; // Dark green
-      } else if (task.priority == 200) {
-        taskElement.style.backgroundColor = "#d4d17a"; // Darker yellow
-      } else if (task.priority == 300) {
-        taskElement.style.backgroundColor = "#f58a8a"; // Dark red
-      }
-      taskElement.style.textAlign = "center";
-      taskElement.textContent = task.title;
-
-      taskElement.addEventListener("dragstart", (event) =>
-        handleDragStart(event, task.id)
-      );
-      taskElement.addEventListener("dragover", handleDragOver);
-      taskElement.addEventListener("click", () => {
-        console.log("Status da tarefa:", task.status);
-      });
-
-      document.getElementById("doing-column").appendChild(taskElement);
-    });
-
-    /* DONE */
-    const doneColumn = document.getElementById("done-column");
-    doneColumn.innerHTML = "";
-    doneTasks.forEach((task) => {
-      const taskElement = document.createElement("div");
-
-      taskElement.setAttribute("id", task.id);
-      taskElement.setAttribute("draggable", "true");
-
-      taskElement.classList.add("task");
-
-      taskElement.style.margin = "5px 10px";
-
-      if (task.priority == 100) {
-        taskElement.style.backgroundColor = "#5cbf8a"; // Dark green
-      } else if (task.priority == 200) {
-        taskElement.style.backgroundColor = "#d4d17a"; // Darker yellow
-      } else if (task.priority == 300) {
-        taskElement.style.backgroundColor = "#f58a8a"; // Dark red
-      }
-      taskElement.style.textAlign = "center";
-      taskElement.textContent = task.title;
-
-      taskElement.addEventListener("dragstart", (event) =>
-        handleDragStart(event, task.id)
-      );
-      taskElement.addEventListener("dragover", handleDragOver);
-      taskElement.addEventListener("click", () => {
-        console.log("Status da tarefa:", task.status);
-      });
-
-      document.getElementById("done-column").appendChild(taskElement);
-    });
-
-    const columns = document.querySelectorAll(".board-container");
-    columns.forEach((column) => {
-      column.addEventListener("dragover", handleDragOver);
-      column.addEventListener("drop", (event) =>
-        handleDrop(event, column.id.split("-")[0])
-      );
-    });
-  }, [todoTasks, doingTasks, doneTasks]);
-
   const displayTasksTodo = () => {
     fetch("http://localhost:8080/project4backend/rest/task/status", {
       method: "GET",
@@ -190,8 +62,9 @@ function MainSB() {
         alert("Unauthorized");
       } else if (response.status === 200) {
         const tasksData = await response.json();
+        //console.log("To Do", JSON.stringify(tasksData));
         setTodoTasks(tasksData);
-        console.log("To Do", todoTasks);
+        // console.log("To Do", todoTasks);
       }
     });
   };
@@ -245,7 +118,9 @@ function MainSB() {
 
         <div className="board-container" id="todo-container">
           <section className="board-column" id="todo-column">
-            {/* tasks */}
+            {todoTasks.map((task) => (
+              <Task key={task.id} title={task.title} priority={task.priority} />
+            ))}
           </section>
         </div>
       </div>
@@ -255,7 +130,9 @@ function MainSB() {
         </div>
         <div className="board-container" id="doing-container">
           <section className="board-column" id="doing-column">
-            {/* tasks */}
+          {doingTasks.map((task) => (
+              <Task key={task.id} title={task.title} priority={task.priority} />
+            ))}
           </section>
         </div>
       </div>
@@ -265,7 +142,9 @@ function MainSB() {
         </div>
         <div className="board-container" id="done-container">
           <section className="board-column" id="done-column">
-            {/* tasks */}
+          {doneTasks.map((task) => (
+              <Task key={task.id} title={task.title} priority={task.priority}/>
+            ))}
           </section>
         </div>
       </div>

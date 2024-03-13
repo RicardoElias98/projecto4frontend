@@ -240,5 +240,14 @@ input {
   text-shadow: -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333,
     1px 1px 0 #333;
 }
+.high-priority {
+  background-color: #f58a8a; 
+}
 
+.medium-priority {
+  background-color: #d4d17a; 
+}
 
+.low-priority {
+  background-color: #5cbf8a; 
+}
