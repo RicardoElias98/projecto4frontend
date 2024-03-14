@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 import "../general.css";
 import { userStore } from "../stores/UserStore";
-import TaskInfo from "./TaskInfo";
 import Task from "./Task";
 import { Droppable } from "react-beautiful-dnd";
 import { DragDropContext } from "react-beautiful-dnd";
@@ -112,95 +111,63 @@ function MainSB() {
   };
 
   return (
-    <DragDropContext onDragEnd={updateStatus}>
-      <div className="board">
-        <div className="total-column">
-          <div className="column-header" id="to-do-header">
-            <h2>To Do</h2>
-          </div>
+    <div className="board">
+      <div className="total-column">
+        <div className="column-header" id="to-do-header">
+          <h2>To Do</h2>
+        </div>
 
-          <div className="board-container" id="todo-container">
-            <Droppable droppableId="todo-column">
-              {(provided) => (
-                <section
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className="board-column"
-                  id="todo-column"
-                >
-                  {todoTasks.map((task, index) => (
-                    <Task
-                      key={task.id}
-                      title={task.title}
-                      priority={task.priority}
-                      id={task.id}
-                      index={index}
-                    />
-                  ))}
-                  {provided.placeholder}
-                </section>
-              )}
-            </Droppable>
-          </div>
-        </div>
-        <div className="total-column">
-          <div className="column-header" id="doing-header">
-            <h2>Doing</h2>
-          </div>
-          <div className="board-container" id="doing-container">
-            <Droppable droppableId="doing-column">
-              {(provided) => (
-                <section
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className="board-column"
-                  id="doing-column"
-                >
-                  {doingTasks.map((task, index) => (
-                    <Task
-                      key={task.id}
-                      title={task.title}
-                      priority={task.priority}
-                      id={task.id}
-                      index={index}
-                    />
-                  ))}
-                  {provided.placeholder}
-                </section>
-              )}
-            </Droppable>
-          </div>
-        </div>
-        <div className="total-column">
-          <div className="column-header" id="done-header">
-            <h2>Done</h2>
-          </div>
-          <div className="board-container" id="done-container">
-            <Droppable droppableId="done-column">
-              {(provided) => (
-                <section
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className="board-column"
-                  id="done-column"
-                >
-                  {doneTasks.map((task, index) => (
-                    <Task
-                      key={task.id}
-                      title={task.title}
-                      priority={task.priority}
-                      id={task.id}
-                      index={index}
-                    />
-                  ))}
-                  {provided.placeholder}
-                </section>
-              )}
-            </Droppable>
-          </div>
+        <div className="board-container" id="todo-container">
+          <section className="board-column" id="todo-column">
+            {todoTasks.map((task, index) => (
+              <Task
+                key={task.id}
+                title={task.title}
+                priority={task.priority}
+                id={task.id}
+                index={index}
+              />
+            ))}
+          </section>
         </div>
       </div>
-    </DragDropContext>
+      <div className="total-column">
+        <div className="column-header" id="doing-header">
+          <h2>Doing</h2>
+        </div>
+        <div className="board-container" id="doing-container">
+          <section className="board-column" id="doing-column">
+            {doingTasks.map((task, index) => (
+              <Task
+                key={task.id}
+                title={task.title}
+                priority={task.priority}
+                id={task.id}
+                index={index}
+              />
+            ))}
+          </section>
+        </div>
+      </div>
+      <div className="total-column">
+        <div className="column-header" id="done-header">
+          <h2>Done</h2>
+        </div>
+        <div className="board-container" id="done-container">
+          <section className="board-column" id="done-column">
+            {doneTasks.map((task, index) => (
+              <Task
+                key={task.id}
+                title={task.title}
+                priority={task.priority}
+                id={task.id}
+                index={index}
+              />
+            ))}
+          </section>
+        </div>
+      </div>
+    </div>
   );
 }
 
