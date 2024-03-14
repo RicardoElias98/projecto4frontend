@@ -24,10 +24,7 @@ function AsideAddTask() {
     setIsModalOpen(false);
   };
 
-  const handleConfirmCategory = (categoryName) => {
-    // Handle category confirmation logic here
-    console.log("Category Name:", categoryName);
-  };
+ 
 
   useEffect(() => {
     getAllCategories();
@@ -168,7 +165,6 @@ function AsideAddTask() {
       <CategoryModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        onConfirm={handleConfirmCategory}
       />
     </div>
   );
