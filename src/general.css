@@ -241,13 +241,19 @@ input {
     1px 1px 0 #333;
 }
 .high-priority {
-  background-color: #f58a8a; 
+  background-color: #f58a8a;
 }
 
 .medium-priority {
-  background-color: #d4d17a; 
+  background-color: #d4d17a;
 }
 
 .low-priority {
-  background-color: #5cbf8a; 
+  background-color: #5cbf8a;
+}
+
+.h2 {
+  text-align: center;
+  margin: 10px;
+  color: black;
 }

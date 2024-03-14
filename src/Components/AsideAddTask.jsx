@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import "../general.css";
 import { userStore } from "../stores/UserStore";
+import CategoryModal from "./CategoryModal";
 
 function AsideAddTask() {
   const token = userStore.getState().token;
@@ -11,6 +12,21 @@ function AsideAddTask() {
     Low: 100,
     Medium: 200,
     High: 300,
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleConfirmCategory = (categoryName) => {
+    // Handle category confirmation logic here
+    console.log("Category Name:", categoryName);
   };
 
   useEffect(() => {
@@ -77,6 +93,7 @@ function AsideAddTask() {
       }
     });
   };
+
   return (
     <div>
       {" "}
@@ -145,6 +162,14 @@ function AsideAddTask() {
           Add task
         </button>
       </form>
+      <button className="button" onClick={handleOpenModal}>
+        Add Category
+      </button>
+      <CategoryModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmCategory}
+      />
     </div>
   );
 }
