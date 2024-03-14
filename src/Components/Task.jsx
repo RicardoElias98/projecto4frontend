@@ -1,6 +1,8 @@
 import React from "react";
+import "../general.css";
+import { Draggable } from "react-beautiful-dnd";
 
-function Task({ title, priority }) {
+function Task({ title, priority, id, index }) {
   let priorityClass = "";
 
   if (priority === 300) {
@@ -11,7 +13,20 @@ function Task({ title, priority }) {
     priorityClass = "low-priority";
   }
 
-  return <div className={`task ${priorityClass}`}>{title}</div>;
+  return (
+    <Draggable draggableId={id} index={index}>
+      {(provided) => (
+        <div
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+          className={`task ${priorityClass}`}
+        >
+          {title}
+        </div>
+      )}
+    </Draggable>
+  );
 }
 
 export default Task;
