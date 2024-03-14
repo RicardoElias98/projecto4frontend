@@ -1,26 +1,60 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../general.css";
 import { userStore } from "../stores/UserStore";
 import Task from "./Task";
-import { Droppable } from "react-beautiful-dnd";
-import { DragDropContext } from "react-beautiful-dnd";
 
 function MainSB() {
   const token = userStore.getState().token;
-  const [counter, setCounter] = useState([]);
   const [todoTasks, setTodoTasks] = useState([]);
   const [doingTasks, setDoingTasks] = useState([]);
   const [doneTasks, setDoneTasks] = useState([]);
-  const statusMapping = {
-    todo: 10,
-    doing: 20,
-    done: 30,
+
+  useEffect(() => {
+    displayTasksByStatus(10, setTodoTasks);
+    displayTasksByStatus(20, setDoingTasks);
+    displayTasksByStatus(30, setDoneTasks);
+  }, []);
+
+  const displayTasksByStatus = (status, setTasks) => {
+    fetch(`http://localhost:8080/project4backend/rest/task/status`, {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        token: token,
+        status: status,
+      },
+    })
+      .then(async function (response) {
+        if (response.status === 401) {
+          alert("Unauthorized");
+        } else if (response.status === 200) {
+          const tasksData = await response.json();
+          setTasks(tasksData);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching tasks:", error);
+      });
+  };
+
+  const handleDragStart = (event, taskId) => {
+    event.dataTransfer.setData("data_id", taskId);
+  };
+
+  const handleDrop = (event, status) => {
+    const taskId = event.dataTransfer.getData("data_id");
+
+    updateStatus(status, taskId);
+
+    displayTasksByStatus(10, setTodoTasks);
+    displayTasksByStatus(20, setDoingTasks);
+    displayTasksByStatus(30, setDoneTasks);
   };
 
   const updateStatus = (newStatus, idTask) => {
-    console.log(token);
+    console.log("newStatus: " + newStatus);
+    console.log("idTask: " + idTask);
     fetch(
       `http://localhost:8080/project4backend/rest/task/changeStatus/${idTask}`,
       {
@@ -32,82 +66,19 @@ function MainSB() {
         },
         body: JSON.stringify({ status: newStatus }),
       }
-    ).then(async function (response) {
-      if (response.status === 401) {
-        console.log("Unauthorized");
-      } else if (response.status === 400) {
-        console.log("Failed. Status not changed");
-      } else if (response.status === 200) {
-        console.log("status changed to" + newStatus);
-      }
-    });
-  };
-
-  useEffect(() => {
-    displayTasksTodo();
-    displayTasksDoing();
-    displayTasksDone();
-  }, []);
-
-  const displayTasksTodo = () => {
-    fetch("http://localhost:8080/project4backend/rest/task/status", {
-      method: "GET",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-        token: token,
-        status: 10,
-      },
-    }).then(async function (response) {
-      if (response.status === 401) {
-        alert("Unauthorized");
-      } else if (response.status === 200) {
-        const tasksData = await response.json();
-        //console.log("To Do", JSON.stringify(tasksData));
-        setTodoTasks(tasksData);
-        console.log("To Do", todoTasks);
-      }
-    });
-  };
-
-  const displayTasksDoing = () => {
-    fetch("http://localhost:8080/project4backend/rest/task/status", {
-      method: "GET",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-        token: token,
-        status: 20,
-      },
-    }).then(async function (response) {
-      if (response.status === 401) {
-        alert("Unauthorized");
-      } else if (response.status === 200) {
-        const tasksData = await response.json();
-        setDoingTasks(tasksData);
-        console.log("Doing", doingTasks);
-      }
-    });
-  };
-
-  const displayTasksDone = () => {
-    fetch("http://localhost:8080/project4backend/rest/task/status", {
-      method: "GET",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-        token: token,
-        status: 30,
-      },
-    }).then(async function (response) {
-      if (response.status === 401) {
-        alert("Unauthorized");
-      } else if (response.status === 200) {
-        const tasksData = await response.json();
-        setDoneTasks(tasksData);
-        console.log("Done", doneTasks);
-      }
-    });
+    )
+      .then(async function (response) {
+        if (response.status === 401) {
+          console.log("Unauthorized");
+        } else if (response.status === 400) {
+          console.log("Failed. Status not changed");
+        } else if (response.status === 200) {
+          console.log("status changed to" + newStatus);
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating task status:", error);
+      });
   };
 
   return (
@@ -116,16 +87,20 @@ function MainSB() {
         <div className="column-header" id="to-do-header">
           <h2>To Do</h2>
         </div>
-
-        <div className="board-container" id="todo-container">
+        <div
+          className="board-container"
+          id="todo-container"
+          onDragOver={(event) => event.preventDefault()}
+          onDrop={(event) => handleDrop(event, 10)}
+        >
           <section className="board-column" id="todo-column">
-            {todoTasks.map((task, index) => (
+            {todoTasks.map((task) => (
               <Task
                 key={task.id}
                 title={task.title}
                 priority={task.priority}
                 id={task.id}
-                index={index}
+                onDragStart={(event) => handleDragStart(event, task.id)}
               />
             ))}
           </section>
@@ -135,15 +110,20 @@ function MainSB() {
         <div className="column-header" id="doing-header">
           <h2>Doing</h2>
         </div>
-        <div className="board-container" id="doing-container">
+        <div
+          className="board-container"
+          id="doing-container"
+          onDragOver={(event) => event.preventDefault()}
+          onDrop={(event) => handleDrop(event, 20)}
+        >
           <section className="board-column" id="doing-column">
-            {doingTasks.map((task, index) => (
+            {doingTasks.map((task) => (
               <Task
                 key={task.id}
                 title={task.title}
                 priority={task.priority}
                 id={task.id}
-                index={index}
+                onDragStart={(event) => handleDragStart(event, task.id)}
               />
             ))}
           </section>
@@ -153,15 +133,20 @@ function MainSB() {
         <div className="column-header" id="done-header">
           <h2>Done</h2>
         </div>
-        <div className="board-container" id="done-container">
+        <div
+          className="board-container"
+          id="done-container"
+          onDragOver={(event) => event.preventDefault()}
+          onDrop={(event) => handleDrop(event, 30)}
+        >
           <section className="board-column" id="done-column">
-            {doneTasks.map((task, index) => (
+            {doneTasks.map((task) => (
               <Task
                 key={task.id}
                 title={task.title}
                 priority={task.priority}
                 id={task.id}
-                index={index}
+                onDragStart={(event) => handleDragStart(event, task.id)}
               />
             ))}
           </section>

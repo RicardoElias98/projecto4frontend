@@ -1,7 +1,7 @@
 import React from "react";
 import "../general.css";
 
-function Task({ title, priority }) {
+function Task({ title, priority, id }) {
   let priorityClass = "";
 
   if (priority === 300) {
@@ -12,12 +12,19 @@ function Task({ title, priority }) {
     priorityClass = "low-priority";
   }
 
+  const handleDragStart = (event) => {
+    event.dataTransfer.setData("data_id", id);
+  };
+
   return (
-    <div className={`task ${priorityClass}`}>
+    <div
+      className={`task ${priorityClass}`}
+      draggable="true"
+      onDragStart={handleDragStart}
+    >
       {title}
     </div>
   );
 }
 
 export default Task;
-

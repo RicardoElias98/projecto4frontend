@@ -139,10 +139,10 @@ submitTaskButton.addEventListener("click", async function () {
   const priority = document.getElementById("editTaskPriority").value;
   const inicalDate = document.getElementById("initialDate").value;
   let finalDate = document.getElementById("finalDate").value;
-  if(inicalDate === ""){
+  if (inicalDate === "") {
     dateError.style.display = "block";
-  }else if(finalDate === ""){
-    finalDate = '2199-12-31';
+  } else if (finalDate === "") {
+    finalDate = "2199-12-31";
   }
 
   dateErrorPriority.style.display = "none";
@@ -224,7 +224,7 @@ yesButton.addEventListener("click", async function () {
   document.body.classList.remove("modal-open");
   //Obtem o identificador da tarefa que foi guardado no atributo data-task-id do deleteWarning modal
   const taskId = deleteWarning.getAttribute("data-task-id");
-//Vai buscar o username e a password da localStorage
+  //Vai buscar o username e a password da localStorage
   let userUsado = {
     username: localStorage.getItem("username"),
     password: localStorage.getItem("password"),
@@ -327,8 +327,8 @@ async function drop(event) {
         taskMoved.status = 300;
         targetSection.appendChild(taskElement);
       }
-      updateStatusTask(taskMoved);//Atualiza o status da tarefa
-      gettasks();//Vai buscar as tarefas
+      updateStatusTask(taskMoved); //Atualiza o status da tarefa
+      gettasks(); //Vai buscar as tarefas
     }
   });
 }
@@ -411,7 +411,7 @@ function createTaskElements(tasksArray) {
     taskElement.addEventListener("contextmenu", (e) => {
       //Previnir o comportamento padrão do browser
       e.preventDefault();
-    //Faz com que o popup menu apareça no local onde o botão direito do rato foi clicado
+      //Faz com que o popup menu apareça no local onde o botão direito do rato foi clicado
       contextMenu.style.top = `${e.pageY}px`;
       contextMenu.style.left = `${e.pageX}px`;
       //Guarda o identificador e a prioridade da tarefa
@@ -435,8 +435,8 @@ function createTaskElements(tasksArray) {
       document.getElementById("taskInitialDateinfo").textContent =
         task.initialDate;
       console.log(task.finalDate);
-      if(task.finalDate === '2199-12-31'){
-        task.finalDate = 'No final date';
+      if (task.finalDate === "2199-12-31") {
+        task.finalDate = "No final date";
       }
       document.getElementById("taskFinalDateinfo").textContent = task.finalDate;
 
@@ -454,7 +454,7 @@ function createTaskElements(tasksArray) {
     }
   }
 }
-    //Função que apaga uma tarefa
+//Função que apaga uma tarefa
 async function deleteTask(task) {
   let username = localStorage.getItem("username");
   let password = localStorage.getItem("password");
@@ -472,7 +472,7 @@ async function deleteTask(task) {
     if (response.status == 403) {
       console.log(user.username);
       alert("Acess Denied");
-    }else if (response.status == 404) {
+    } else if (response.status == 404) {
       alert("Task not found");
     } else if (response.status == 200) {
       console.log("task deleted");
@@ -481,8 +481,8 @@ async function deleteTask(task) {
   });
 }
 
-  //Função que mostra a data e hora
-  function displayDateTime() {
+//Função que mostra a data e hora
+function displayDateTime() {
   const currentDate = new Date();
 
   //Formata a data e hora
