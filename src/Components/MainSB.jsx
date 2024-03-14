@@ -31,6 +31,7 @@ function MainSB() {
         } else if (response.status === 200) {
           const tasksData = await response.json();
           setTasks(tasksData);
+          console.log("entrei");
         }
       })
       .catch((error) => {
