@@ -9,6 +9,10 @@ import AllCategoriesModal from "./AllCategoriesModal";
 function AsideAddTask() {
   const token = userStore.getState().token;
   const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getAllCategories();
+  }, [categories]);
   const priorityMapping = {
     Low: 100,
     Medium: 200,
