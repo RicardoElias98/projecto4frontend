@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import "../general.css";
 import { userStore } from "../stores/UserStore";
 import CategoryModal from "./CategoryModal";
+import AllCategoriesModal from "./AllCategoriesModal";
 
 function AsideAddTask() {
   const token = userStore.getState().token;
@@ -14,17 +15,25 @@ function AsideAddTask() {
     High: 300,
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [isAllCategoriesModalOpen, setIsAllCategoriesModalOpen] =
+    useState(false);
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
+  const handleOpenCategoryModal = () => {
+    setIsCategoryModalOpen(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleCloseCategoryModal = () => {
+    setIsCategoryModalOpen(false);
   };
 
- 
+  const handleOpenAllCategoriesModal = () => {
+    setIsAllCategoriesModalOpen(true);
+  };
+
+  const handleCloseAllCategoriesModal = () => {
+    setIsAllCategoriesModalOpen(false);
+  };
 
   useEffect(() => {
     getAllCategories();
@@ -159,12 +168,20 @@ function AsideAddTask() {
           Add task
         </button>
       </form>
-      <button className="button" onClick={handleOpenModal}>
+      <button className="button" onClick={handleOpenCategoryModal}>
         Add Category
       </button>
       <CategoryModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
+        isOpen={isCategoryModalOpen}
+        onClose={handleCloseCategoryModal}
+      />
+      <button className="button" onClick={handleOpenAllCategoriesModal}>
+        All Categories
+      </button>
+      <AllCategoriesModal
+        isOpen={isAllCategoriesModalOpen}
+        onClose={handleCloseAllCategoriesModal}
+        categories={categories}
       />
     </div>
   );
