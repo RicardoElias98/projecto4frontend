@@ -38,6 +38,12 @@ function AllCategoriesModal({ isOpen, onClose, categories }) {
     onClose();
   };
 
+  const handleClose = () => {
+    setCategoryName("");
+    setCategoryId("");
+    onClose();
+  };
+
   const onConfirm = (categoryName) => {
     const formattedCategoryName = normalizeCategoryName(categoryName);
     if (formattedCategoryName === "") {
@@ -103,7 +109,8 @@ function AllCategoriesModal({ isOpen, onClose, categories }) {
               <button className="button" onClick={handleConfirm}>
                 Confirmar
               </button>
-              <button className="button" onClick={onClose}>
+              <button className="button"> Delete selected category </button>
+              <button className="button" onClick={handleClose}>
                 Cancelar
               </button>
             </div>

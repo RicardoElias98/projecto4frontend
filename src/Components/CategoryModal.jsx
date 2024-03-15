@@ -52,6 +52,11 @@ function CategoryModal({ isOpen, onClose }) {
     onClose();
   };
 
+  const handleClose = () => {
+    setCategoryName("");
+    onClose();
+  };
+
   return (
     <>
       {isOpen && (
@@ -68,7 +73,7 @@ function CategoryModal({ isOpen, onClose }) {
               <button className="button" onClick={handleConfirm}>
                 Confirmar
               </button>
-              <button className="button" onClick={onClose}>
+              <button className="button" onClick={handleClose}>
                 Cancelar
               </button>
             </div>
