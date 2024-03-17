@@ -74,6 +74,27 @@ function TaskInfo({
     setIsEditable(true);
   };
 
+  const handleDelete = () => {
+    const id = formData.id;
+    fetch(`http://localhost:8080/project4backend/rest/task/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        token: token,
+      },
+    }).then(function (response) {
+      if (response.status === 401) {
+        console.log("Unauthorized");
+      } else if (response.status === 400) {
+        console.log("Failed. Task not deleted");
+      } else if (response.status === 200) {
+        console.log("Task deleted");
+        onClose();
+      }
+    });
+  };
+
   if (!isOpen) {
     return null;
   }
@@ -172,17 +193,20 @@ function TaskInfo({
               {" "}
               Cancel{" "}
             </button>
-            <button className="button"> Delete </button>
+            <button className="button" onClick={handleDelete}>
+              {" "}
+              Delete{" "}
+            </button>
           </>
         ) : (
           <>
-    <button className="button" onClick={handleEditClick}>
-      Edit
-    </button>
-    <button className="button" onClick={handleClose}>
-      Cancel
-    </button>
-  </>
+            <button className="button" onClick={handleEditClick}>
+              Edit
+            </button>
+            <button className="button" onClick={handleClose}>
+              Cancel
+            </button>
+          </>
         )}
       </div>
     </div>
