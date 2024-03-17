@@ -2,17 +2,25 @@ import React, { useState, useEffect } from "react";
 import "../general.css";
 import { userStore } from "../stores/UserStore";
 import Task from "./Task";
+import {tasksStore} from "../stores/TasksStore";
 
 function MainSB() {
   const token = userStore.getState().token;
   const [todoTasks, setTodoTasks] = useState([]);
   const [doingTasks, setDoingTasks] = useState([]);
   const [doneTasks, setDoneTasks] = useState([]);
+  const [allTasks, setAllTasks] = useState([]);
+  
+  const updateTask = tasksStore((state) => state.updateTasks);
+  const tasks = tasksStore.getState().tasks;
 
   useEffect(() => {
     displayTasksByStatus(10, setTodoTasks);
     displayTasksByStatus(20, setDoingTasks);
     displayTasksByStatus(30, setDoneTasks);
+    const combinedTasks = [...todoTasks, ...doingTasks, ...doneTasks];
+      setAllTasks(combinedTasks);
+      updateTask(combinedTasks);
   }, []);
 
   const displayTasksByStatus = (status, setTasks) => {
