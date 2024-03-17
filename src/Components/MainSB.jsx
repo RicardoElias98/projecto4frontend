@@ -101,6 +101,10 @@ function MainSB() {
                 title={task.title}
                 priority={task.priority}
                 id={task.id}
+                description={task.description}
+                category={task.category}
+                startDate={task.startDate}
+                endDate={task.endDate}
                 onDragStart={(event) => handleDragStart(event, task.id)}
               />
             ))}

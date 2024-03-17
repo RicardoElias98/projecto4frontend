@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../general.css";
 import TaskInfo from "./TaskInfo";
 
-function Task({ title, priority, id }) {
+function Task({ title, priority, id, description, category, startDate, endDate}) {
   let priorityClass = "";
 
   if (priority === 300) {
@@ -39,6 +39,13 @@ function Task({ title, priority, id }) {
       <TaskInfo
         isOpen={isTaskInfoModalOpen}
         onClose={handleCloseTaskInfoModal}
+        taskName={title}
+        taskDescription={description}
+        priority={priority} 
+        category= {category} 
+        startDate = {startDate} 
+        endDate = {endDate}
+
       />
     </>
   );
