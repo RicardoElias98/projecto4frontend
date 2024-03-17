@@ -44,6 +44,39 @@ function AllCategoriesModal({ isOpen, onClose, categories }) {
     onClose();
   };
 
+  const handleConfirmDelete = () => {
+    onDelete(oldName);
+    setCategoryName("");
+    setCategoryId("");
+    onClose();
+  };
+
+  const onDelete = (oldName) => {
+    if (oldName) {
+      fetch(
+        `http://localhost:8080/project4backend/rest/task//deleteCategory/${oldName}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            token: token,
+          },
+        }
+      ).then(function (response) {
+        if (response.status === 401) {
+          alert("Unauthorized");
+        } else if (response.status === 404) {
+          alert("Category not found");
+        } else if (response.status === 409) {
+          alert("Category has tasks and cannot be deleted");
+        } else if (response.status === 200) {
+          console.log("Category deleted successfully");
+        }
+      });
+    }
+  };
+
   const onConfirm = (categoryName) => {
     const formattedCategoryName = normalizeCategoryName(categoryName);
     if (formattedCategoryName === "") {
@@ -82,8 +115,10 @@ function AllCategoriesModal({ isOpen, onClose, categories }) {
       {isOpen && (
         <div className="overlay">
           <div className="modal">
-            <h2 className="h2"> All Categories</h2>
-            <label htmlFor="category">Category:</label>
+            <h2 className="h2"> Edit/Delete Categories</h2>
+            <label htmlFor="category" className="h2">
+              Category:
+            </label>
             <select
               id="category"
               defaultValue=""
@@ -109,7 +144,10 @@ function AllCategoriesModal({ isOpen, onClose, categories }) {
               <button className="button" onClick={handleConfirm}>
                 Confirmar
               </button>
-              <button className="button"> Delete selected category </button>
+              <button className="button" onClick={handleConfirmDelete}>
+                {" "}
+                Delete selected category{" "}
+              </button>
               <button className="button" onClick={handleClose}>
                 Cancelar
               </button>

@@ -180,7 +180,7 @@ function AsideAddTask() {
         onClose={handleCloseCategoryModal}
       />
       <button className="button" onClick={handleOpenAllCategoriesModal}>
-        All Categories
+        Edit/Delete Categories
       </button>
       <AllCategoriesModal
         isOpen={isAllCategoriesModalOpen}
