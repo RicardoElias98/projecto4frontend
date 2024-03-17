@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import "../general.css";
 import { categoriesStore } from "../stores/CategoriesStore";
-import { useState } from "react";
 import { userStore } from "../stores/UserStore";
 
 function TaskInfo({
@@ -13,7 +12,8 @@ function TaskInfo({
   category,
   startDate,
   endDate,
-  taskId
+  taskId,
+  status,
 }) {
   const token = userStore.getState().token;
   const categories = categoriesStore.getState().categories;
@@ -34,7 +34,10 @@ function TaskInfo({
     endDate: endDate,
     priority: priority,
     id: taskId,
+    status: status,
   });
+
+  const [isEditable, setIsEditable] = useState(false);
 
   const handleConfirm = () => {
     console.log(formData);
@@ -57,6 +60,7 @@ function TaskInfo({
         console.log("Failed. Task not updated");
       } else if (response.status === 200) {
         console.log("Task updated");
+        onClose();
       }
     });
   };
@@ -64,6 +68,10 @@ function TaskInfo({
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleEditClick = () => {
+    setIsEditable(true);
   };
 
   if (!isOpen) {
@@ -85,8 +93,9 @@ function TaskInfo({
           type="text"
           id="taskName"
           name="title"
-          defaultValue={taskName}
+          value={formData.title}
           onChange={handleChange}
+          readOnly={!isEditable}
         />
         <label className="h2" htmlFor="taskDescription">
           Task Description:
@@ -94,18 +103,20 @@ function TaskInfo({
         <input
           type="text"
           id="taskDescription"
-          name=" description"
-          defaultValue={taskDescription}
+          name="description"
+          value={formData.description}
           onChange={handleChange}
+          readOnly={!isEditable}
         />
         <label className="h2" htmlFor="category">
           Category:
         </label>
         <select
           id="category"
-          defaultValue={category}
           name="category"
+          value={formData.category}
           onChange={handleChange}
+          disabled={!isEditable}
         >
           <option value="">Choose a category...</option>
           {categories.map((category) => (
@@ -119,9 +130,10 @@ function TaskInfo({
         </label>
         <select
           id="priority"
-          value={priorityValue}
           name="priority"
+          value={formData.priority}
           onChange={handleChange}
+          disabled={!isEditable}
         >
           <option value="">Choose a Priority...</option>
           <option value="Low">Low &#x1F7E2;</option>
@@ -135,8 +147,9 @@ function TaskInfo({
           type="date"
           id="startDate"
           name="startDate"
-          defaultValue={startDate}
+          value={formData.startDate}
           onChange={handleChange}
+          readOnly={!isEditable}
         />
         <label className="h2" htmlFor="endDate">
           Final Date:
@@ -144,20 +157,33 @@ function TaskInfo({
         <input
           type="date"
           id="endDate"
-          defaultValue={endDate}
           name="endDate"
+          value={formData.endDate}
           onChange={handleChange}
+          readOnly={!isEditable}
         />
-        <button className="button"> Edit </button>
-        <button className="button" onClick={handleConfirm}>
-          {" "}
-          Confirm{" "}
-        </button>
-        <button className="button"> Delete </button>
-        <button className="button" onClick={handleClose}>
-          {" "}
-          Cancel{" "}
-        </button>
+        {isEditable ? (
+          <>
+            <button className="button" onClick={handleConfirm}>
+              {" "}
+              Confirm{" "}
+            </button>
+            <button className="button" onClick={handleClose}>
+              {" "}
+              Cancel{" "}
+            </button>
+            <button className="button"> Delete </button>
+          </>
+        ) : (
+          <>
+    <button className="button" onClick={handleEditClick}>
+      Edit
+    </button>
+    <button className="button" onClick={handleClose}>
+      Cancel
+    </button>
+  </>
+        )}
       </div>
     </div>
   );

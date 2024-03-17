@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../general.css";
 import TaskInfo from "./TaskInfo";
 
-function Task({ title, priority, id, description, category, startDate, endDate}) {
+function Task({ title, priority, id, description, category, startDate, endDate, status}) {
   let priorityClass = "";
 
   if (priority === 300) {
@@ -46,6 +46,7 @@ function Task({ title, priority, id, description, category, startDate, endDate})
         startDate = {startDate} 
         endDate = {endDate}
         taskId={id}
+        status={status}
 
       />
     </>

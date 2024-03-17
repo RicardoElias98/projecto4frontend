@@ -105,6 +105,7 @@ function MainSB() {
                 category={task.category}
                 startDate={task.startDate}
                 endDate={task.endDate}
+                status = {task.status}
                 onDragStart={(event) => handleDragStart(event, task.id)}
               />
             ))}
@@ -132,6 +133,7 @@ function MainSB() {
                 category={task.category}
                 startDate={task.startDate}
                 endDate={task.endDate}
+                status = {task.status}
                 onDragStart={(event) => handleDragStart(event, task.id)}
               />
             ))}
@@ -159,6 +161,7 @@ function MainSB() {
                 category={task.category}
                 startDate={task.startDate}
                 endDate={task.endDate}
+                status = {task.status}
                 onDragStart={(event) => handleDragStart(event, task.id)}
               />
             ))}
