@@ -5,10 +5,12 @@ import "../general.css";
 import { userStore } from "../stores/UserStore";
 import CategoryModal from "./CategoryModal";
 import AllCategoriesModal from "./AllCategoriesModal";
+import {categoriesStore} from "../stores/CategoriesStore";
 
 function AsideAddTask() {
   const token = userStore.getState().token;
   const [categories, setCategories] = useState([]);
+  const updateCategories = categoriesStore((state) => state.updateCategories);
 
   useEffect(() => {
     getAllCategories();
@@ -57,6 +59,7 @@ function AsideAddTask() {
       } else if (response.status === 200) {
         const categoriesData = await response.json();
         setCategories(categoriesData);
+        updateCategories(categoriesData);
       }
     });
   };

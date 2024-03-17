@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import "../general.css";
+import TaskInfo from "./TaskInfo";
 
 function Task({ title, priority, id }) {
   let priorityClass = "";
@@ -11,19 +12,35 @@ function Task({ title, priority, id }) {
   } else if (priority === 100) {
     priorityClass = "low-priority";
   }
+  const [isTaskInfoModalOpen, setTaskInfoModalOpen] = useState(false);
+
+  const handleCloseTaskInfoModal = () => {
+    setTaskInfoModalOpen(false);
+  };
+
+  const handleOpenCategoryModal = () => {
+    setTaskInfoModalOpen(true);
+  };
 
   const handleDragStart = (event) => {
     event.dataTransfer.setData("data_id", id);
   };
 
   return (
-    <div
-      className={`task ${priorityClass}`}
-      draggable="true"
-      onDragStart={handleDragStart}
-    >
-      {title}
-    </div>
+    <>
+      <div
+        className={`task ${priorityClass}`}
+        draggable="true"
+        onDragStart={handleDragStart}
+        onDoubleClick={handleOpenCategoryModal}
+      >
+        {title}
+      </div>
+      <TaskInfo
+        isOpen={isTaskInfoModalOpen}
+        onClose={handleCloseTaskInfoModal}
+      />
+    </>
   );
 }
 
