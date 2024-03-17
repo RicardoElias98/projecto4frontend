@@ -45,6 +45,7 @@ function Task({ title, priority, id, description, category, startDate, endDate})
         category= {category} 
         startDate = {startDate} 
         endDate = {endDate}
+        taskId={id}
 
       />
     </>

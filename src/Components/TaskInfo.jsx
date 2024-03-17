@@ -2,6 +2,7 @@ import React from "react";
 import "../general.css";
 import { categoriesStore } from "../stores/CategoriesStore";
 import { useState } from "react";
+import { userStore } from "../stores/UserStore";
 
 function TaskInfo({
   isOpen,
@@ -12,7 +13,9 @@ function TaskInfo({
   category,
   startDate,
   endDate,
+  taskId
 }) {
+  const token = userStore.getState().token;
   const categories = categoriesStore.getState().categories;
 
   const priorityMapping = {
@@ -24,12 +27,39 @@ function TaskInfo({
   const priorityValue = priorityMapping[priority];
 
   const [formData, setFormData] = useState({
-    taskName: "",
-    taskDescription: "",
-    category: "",
-    startDate: "",
-    endDate: "",
+    title: taskName,
+    description: taskDescription,
+    category: category,
+    startDate: startDate,
+    endDate: endDate,
+    priority: priority,
+    id: taskId,
   });
+
+  const handleConfirm = () => {
+    console.log(formData);
+    formData.priority = priorityMapping[formData.priority];
+    console.log(formData);
+    fetch("http://localhost:8080/project4backend/rest/task/update", {
+      method: "PUT",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        token: token,
+      },
+      body: JSON.stringify(formData),
+    }).then(function (response) {
+      if (response.status === 401) {
+        console.log("Unauthorized");
+      } else if (response.status === 406) {
+        console.log("Failed. Task not updated. All elements are required");
+      } else if (response.status === 400) {
+        console.log("Failed. Task not updated");
+      } else if (response.status === 200) {
+        console.log("Task updated");
+      }
+    });
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -54,7 +84,7 @@ function TaskInfo({
         <input
           type="text"
           id="taskName"
-          name="taskName"
+          name="title"
           defaultValue={taskName}
           onChange={handleChange}
         />
@@ -64,7 +94,7 @@ function TaskInfo({
         <input
           type="text"
           id="taskDescription"
-          name="taskDescription"
+          name=" description"
           defaultValue={taskDescription}
           onChange={handleChange}
         />
@@ -119,7 +149,10 @@ function TaskInfo({
           onChange={handleChange}
         />
         <button className="button"> Edit </button>
-        <button className="button"> Confirm </button>
+        <button className="button" onClick={handleConfirm}>
+          {" "}
+          Confirm{" "}
+        </button>
         <button className="button"> Delete </button>
         <button className="button" onClick={handleClose}>
           {" "}
