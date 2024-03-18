@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "../general.css";
+import UserInfo from "./UserInfo";
 
-function User({ id, username, photo, role }) {
+function User({ username, name, email, contactNumber, role, photo }) {
   let roleClass = "";
+
+  const [isUserInfoModalOpen, setUserInfoModalOpen] = useState(false);
 
   if (role === "developer") {
     roleClass = "dev";
@@ -16,19 +19,37 @@ function User({ id, username, photo, role }) {
     event.dataTransfer.setData("user_id", username);
   };
 
+  const handleOpenUserInfoModal = () => {
+    setUserInfoModalOpen(true);
+  };
+
+  const handleCloseUserInfoModal = () => {
+    setUserInfoModalOpen(false);
+  };
+
   return (
     <>
-    <div
-      className={`role ${roleClass}`}
-      draggable="true"
-      onDragStart={handleDragStart}
-    >
-      <div className="photoUser">
-        <img src={photo} alt="User" className="photo-user" />
+      <div
+        className={`role ${roleClass}`}
+        draggable="true"
+        onDragStart={handleDragStart}
+        onDoubleClick={handleOpenUserInfoModal}
+      >
+        <div className="photoUser">
+          <img src={photo} alt="User" className="photo-user" />
+        </div>
+        {username}
       </div>
-      {username}
-    </div>
-  </>
+      <UserInfo
+        isOpen={isUserInfoModalOpen}
+        onClose={handleCloseUserInfoModal}
+        username={username}
+        name={name}
+        email={email}
+        contactNumber={contactNumber}
+        userPhoto={photo}
+      />
+    </>
   );
 }
 

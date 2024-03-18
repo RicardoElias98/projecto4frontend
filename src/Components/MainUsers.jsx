@@ -106,7 +106,10 @@ function MainSB() {
                   key={user.username}
                   id={user.id}
                   username={user.username}
-                  photo={user.photo}
+                  name={user.name}
+                  email={user.email}
+                  contactNumber={user.contactNumber}
+                  photo={user.userPhoto}
                   role={user.role}
                   onDragStart={(event) => handleDragStart(event, user.username)}
                 />
@@ -132,7 +135,10 @@ function MainSB() {
                   key={user.username}
                   id={user.id}
                   username={user.username}
-                  photo={user.photo}
+                  name={user.name}
+                  email={user.email}
+                  contactNumber={user.contactNumber}
+                  photo={user.userPhoto}
                   role={user.role}
                   onDragStart={(event) => handleDragStart(event, user.id)}
                 />
@@ -158,6 +164,9 @@ function MainSB() {
                   key={user.username}
                   id={user.id}
                   username={user.username}
+                  name={user.name}
+                  email={user.email}
+                  contactNumber={user.contactNumber}
                   photo={user.userPhoto}
                   role={user.role}
                   onDragStart={(event) => handleDragStart(event, user.id)}
