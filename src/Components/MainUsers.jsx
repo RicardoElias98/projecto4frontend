@@ -69,7 +69,19 @@ function MainSB() {
           id="scrumMaster-container"
           onDragOver={(event) => event.preventDefault()}
         >
-          <section className="board-column" id="scrumMaster-column"></section>
+          <section className="board-column" id="scrumMaster-column">
+          {allUsers
+              .filter((user) => user.role === "user")
+              .map((user) => (
+                <User
+                  key={user.id}
+                  id={user.id}
+                  username={user.username}
+                  photo={user.photo}
+                  role={user.role}
+                />
+              ))}
+          </section>
         </div>
       </div>
       <div className="total-column">
@@ -81,7 +93,19 @@ function MainSB() {
           id="productOwner-container"
           onDragOver={(event) => event.preventDefault()}
         >
-          <section className="board-column" id="productOwner-column"></section>
+          <section className="board-column" id="productOwner-column">
+          {allUsers
+              .filter((user) => user.role === "Owner")
+              .map((user) => (
+                <User
+                  key={user.id}
+                  id={user.id}
+                  username={user.username}
+                  photo={user.photo}
+                  role={user.role}
+                />
+              ))}
+          </section>
         </div>
       </div>
     </div>
