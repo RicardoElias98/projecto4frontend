@@ -13,7 +13,7 @@ function User({ id, username, photo, role }) {
   }
 
   const handleDragStart = (event) => {
-    event.dataTransfer.setData("data_id", id);
+    event.dataTransfer.setData("user_id", username);
   };
 
   return (
