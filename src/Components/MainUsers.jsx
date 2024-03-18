@@ -101,7 +101,7 @@ function MainSB() {
                   key={user.id}
                   id={user.id}
                   username={user.username}
-                  photo={user.photo}
+                  photo={user.userPhoto}
                   role={user.role}
                 />
               ))}

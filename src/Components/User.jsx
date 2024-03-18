@@ -18,14 +18,17 @@ function User({ id, username, photo, role }) {
 
   return (
     <>
-      <div
-        className={`role ${roleClass}`}
-        draggable="true"
-        onDragStart={handleDragStart}
-      >
-        {username}
+    <div
+      className={`role ${roleClass}`}
+      draggable="true"
+      onDragStart={handleDragStart}
+    >
+      <div className="photoUser">
+        <img src={photo} alt="User" className="photo-user" />
       </div>
-    </>
+      {username}
+    </div>
+  </>
   );
 }
 
