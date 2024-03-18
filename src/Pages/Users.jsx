@@ -1,14 +1,12 @@
 import React from "react";
 import "../general.css";
-import LogoutButton from "./LogoutButton";
+import LogoutButton from "../Components/LogoutButton";
 import { Link } from "react-router-dom";
-import AsideAddTask from "./AsideAddTask";
-import MainSB from "./MainSB";
-import Photo from "./Photo";
+import Photo from "../Components/Photo";
 import { userStore } from "../stores/UserStore";
+import MainUsers from "../Components/MainUsers";
 
-
-function HtmlDefault() {
+function Users() {
   const userPhoto = userStore.getState().userPhoto;
   return (
     <div className="App" id="outer-container">
@@ -21,11 +19,9 @@ function HtmlDefault() {
         <LogoutButton />
       </header>
       <div className="container">
-        <aside className="aside" id="aside-app">
-          <AsideAddTask />
-        </aside>
+        <aside className="aside" id="aside-app"></aside>
         <main className="main" id="main-app">
-          <MainSB />
+          <MainUsers />
         </main>
       </div>
       <footer className="footer" id="footer-app">
@@ -35,4 +31,4 @@ function HtmlDefault() {
   );
 }
 
-export default HtmlDefault;
+export default Users;

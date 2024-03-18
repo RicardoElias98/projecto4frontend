@@ -9,6 +9,7 @@ import { Route, Routes } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
+import Users from "./Pages/Users";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -19,8 +20,9 @@ root.render(
         <Route path="/htmlDefault" element={<HtmlDefault />} />
         <Route path="/loginPage" element={<LoginPage />} />
         <Route path="/goBackInitialPage" element={<InitialPage />} />
-        <Route path="/registerPage" element={<RegisterPage/>} />
-        <Route path="/htmlDefault " element={<HtmlDefault/>} />
+        <Route path="/registerPage" element={<RegisterPage />} />
+        <Route path="/htmlDefault " element={<HtmlDefault />} />
+        <Route path="/users" element={<Users />} />
       </Routes>
     </Router>
   </React.StrictMode>
