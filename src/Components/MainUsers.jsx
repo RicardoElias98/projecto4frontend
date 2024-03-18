@@ -148,7 +148,7 @@ function MainSB() {
           className="board-container"
           id="productOwner-container"
           onDragOver={(event) => event.preventDefault()}
-          onDrop={(event) => handleDrop(event, 10)}
+          onDrop={(event) => handleDrop(event, "Owner")}
         >
           <section className="board-column" id="productOwner-column">
             {allUsers
