@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { userStore } from "../stores/UserStore";
 
+
 function LoginPage() {
   const navigate = useNavigate();
   const updateToken = userStore((state) => state.updateToken);
+  const updateUserPhoto = userStore((state) => state.updateUserPhoto);
 
   //Dados do formulário
   const [formData, setFormData] = useState({
@@ -46,6 +48,25 @@ function LoginPage() {
       } else if (response.status === 200) {
         const token = await response.text();
         updateToken(token);
+        fetch("http://localhost:8080/project4backend/rest/user/photo", {
+          method: "GET",
+          headers: {
+            Accept: "*/*",
+            "Content-Type": "application/json",
+            token: token,
+          },
+        })
+          .then(async function (response) {
+            if (response.status === 401) {
+              alert("Unauthorized");
+            } else if (response.status === 200) {
+              const userPhoto = await response.text();
+              updateUserPhoto(userPhoto);
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching user photo:", error);
+          });
         loginSucess();
       }
     });

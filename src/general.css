@@ -257,3 +257,19 @@ input {
   margin: 10px;
   color: black;
 }
+
+.photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /*  elemento tenha a forma de um círculo */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ccc;
+  margin-left: auto;
+}
+
+.photo-img {
+  max-height: 100%;
+}
