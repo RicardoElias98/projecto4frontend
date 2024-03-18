@@ -34,6 +34,58 @@ function MainSB() {
       });
   };
 
+  const updateRole = (userData) => {
+    fetch("http://localhost:8080/project4backend/rest/user/update", {
+      method: "PUT",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        token: token,
+      },
+      body: JSON.stringify(userData),
+    })
+      .then(async function (response) {
+        if (response.status === 400) {
+          alert("User with this token is not found");
+        } else if (response.status === 200) {
+          console.log("Role updated");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  };
+  const handleDragStart = (event, username) => {
+    event.dataTransfer.setData("user_id", username);
+  };
+
+  const handleDrop = (event, role) => {
+    const username = event.dataTransfer.getData("user_id");
+    console.log(username);
+    fetch(`http://localhost:8080/project4backend/rest/user/${username}`, {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        token: token,
+      },
+    })
+      .then(async function (response) {
+        if (response.status === 404) {
+          alert("User not found");
+          console.log(username);
+        } else if (response.status === 200) {
+          console.log("User found");
+          const userData = await response.json();
+          userData.role = role;
+          updateRole(userData);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  };
+
   return (
     <div className="board">
       <div className="total-column">
@@ -44,17 +96,19 @@ function MainSB() {
           className="board-container"
           id="developer-container"
           onDragOver={(event) => event.preventDefault()}
+          onDrop={(event) => handleDrop(event, "developer")}
         >
           <section className="board-column" id="developer-column">
             {allUsers
               .filter((user) => user.role === "developer")
               .map((user) => (
                 <User
-                  key={user.id}
+                  key={user.username}
                   id={user.id}
                   username={user.username}
                   photo={user.photo}
                   role={user.role}
+                  onDragStart={(event) => handleDragStart(event, user.username)}
                 />
               ))}
           </section>
@@ -68,17 +122,19 @@ function MainSB() {
           className="board-container"
           id="scrumMaster-container"
           onDragOver={(event) => event.preventDefault()}
+          onDrop={(event) => handleDrop(event, "user")}
         >
           <section className="board-column" id="scrumMaster-column">
-          {allUsers
+            {allUsers
               .filter((user) => user.role === "user")
               .map((user) => (
                 <User
-                  key={user.id}
+                  key={user.username}
                   id={user.id}
                   username={user.username}
                   photo={user.photo}
                   role={user.role}
+                  onDragStart={(event) => handleDragStart(event, user.id)}
                 />
               ))}
           </section>
@@ -92,17 +148,19 @@ function MainSB() {
           className="board-container"
           id="productOwner-container"
           onDragOver={(event) => event.preventDefault()}
+          onDrop={(event) => handleDrop(event, 10)}
         >
           <section className="board-column" id="productOwner-column">
-          {allUsers
+            {allUsers
               .filter((user) => user.role === "Owner")
               .map((user) => (
                 <User
-                  key={user.id}
+                  key={user.username}
                   id={user.id}
                   username={user.username}
                   photo={user.userPhoto}
                   role={user.role}
+                  onDragStart={(event) => handleDragStart(event, user.id)}
                 />
               ))}
           </section>
