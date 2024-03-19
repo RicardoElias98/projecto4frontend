@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "../general.css";
+import { userStore } from "../stores/UserStore";
 
 function UserInfo({
   isOpen,
@@ -8,8 +10,10 @@ function UserInfo({
   email,
   contactNumber,
   userPhoto,
+  role,
 }) {
   const [isEditable, setIsEditable] = useState(false);
+  const token = userStore.getState().token;
 
   const [formData, setFormData] = useState({
     username: username,
@@ -17,6 +21,7 @@ function UserInfo({
     email: email,
     contactNumber: contactNumber,
     userPhoto: userPhoto,
+    role: role,
   });
 
   const handleEditClick = () => {
@@ -37,6 +42,30 @@ function UserInfo({
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  const handleConfirm = () => {
+    console.log(formData);
+    fetch("http://localhost:8080/project4backend/rest/user/update", {
+      method: "PUT",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        token: token,
+      },
+      body: JSON.stringify(formData),
+    }).then(function (response) {
+      if (response.status === 404) {
+        console.log("User not found");
+      } else if (response.status === 406) {
+        console.log("Failed. User not updated. All elements are required");
+      } else if (response.status === 400) {
+        console.log("Failed. User not updated");
+      } else if (response.status === 200) {
+        console.log("User updated");
+        onClose();
+      }
+    });
+  };
+
   return (
     <div className="modal" id="userInfoModal">
       <div className="modal-content">
@@ -51,7 +80,8 @@ function UserInfo({
           name="username"
           value={formData.username}
           onChange={handleChange}
-          readOnly={!isEditable}
+          readOnly={true}
+          className={"input-read-only"}
         />
         <label className="h2" htmlFor="nameUser">
           Name of the User:
@@ -63,6 +93,7 @@ function UserInfo({
           value={formData.name}
           onChange={handleChange}
           readOnly={!isEditable}
+          className={isEditable ? "" : "input-read-only"}
         />
         <label className="h2" htmlFor="email">
           Email:
@@ -74,6 +105,7 @@ function UserInfo({
           value={formData.email}
           onChange={handleChange}
           readOnly={!isEditable}
+          className={isEditable ? "" : "input-read-only"}
         />
         <label className="h2" htmlFor="phoneNumber">
           Phone Number:
@@ -85,6 +117,7 @@ function UserInfo({
           value={formData.contactNumber}
           onChange={handleChange}
           readOnly={!isEditable}
+          className={isEditable ? "" : "input-read-only"}
         />
         <label className="h2" htmlFor="photo">
           Photo:
@@ -96,10 +129,11 @@ function UserInfo({
           value={formData.userPhoto}
           onChange={handleChange}
           readOnly={!isEditable}
+          className={isEditable ? "" : "input-read-only"}
         />
         {isEditable ? (
           <>
-            <button className="button" /*onClick={handleConfirm}*/>
+            <button className="button" onClick={handleConfirm}>
               {" "}
               Confirm{" "}
             </button>

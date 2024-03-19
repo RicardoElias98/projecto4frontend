@@ -48,6 +48,7 @@ function User({ username, name, email, contactNumber, role, photo }) {
         email={email}
         contactNumber={contactNumber}
         userPhoto={photo}
+        role={role}
       />
     </>
   );

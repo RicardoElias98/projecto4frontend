@@ -319,3 +319,10 @@ input {
 .photo-user {
   max-height: 100%;
 }
+
+.input-read-only {
+  background-color: #f4f4f4;
+  color: #888; 
+  border: 1px solid #ddd; 
+  pointer-events: none; 
+}
