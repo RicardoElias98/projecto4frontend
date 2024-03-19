@@ -313,9 +313,16 @@ input {
   pointer-events: none;
 }
 
+.links {
+  display: flex;
+}
+
 .links h2 {
+  display: inline-block;
+  margin-right: 10px; 
   margin-left: 20px;
 }
+
 
 .label-add-user{
   text-align: center;

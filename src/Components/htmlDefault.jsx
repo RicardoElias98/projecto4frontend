@@ -18,6 +18,9 @@ function HtmlDefault() {
         <h2 className="users-link">
           <Link to="/users">Users</Link>
         </h2>
+        <h2 className="Delted-tasks-link">
+          <Link to="/deletedTasks"> Deleted Tasks</Link>
+        </h2>
         </div>
         <Photo src={userPhoto} />
         <LogoutButton />
