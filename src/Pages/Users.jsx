@@ -6,6 +6,7 @@ import Photo from "../Components/Photo";
 import { userStore } from "../stores/UserStore";
 import MainUsers from "../Components/MainUsers";
 import AsideAddUser from "../Components/AsideAddUser";
+import EditProfileButton from "../Components/EditProfileButton";
 
 function Users() {
   const userPhoto = userStore.getState().userPhoto;
@@ -19,6 +20,7 @@ function Users() {
           </h2>
         </div>
         <Photo src={userPhoto} />
+        <EditProfileButton />
         <LogoutButton />
       </header>
       <div className="container">

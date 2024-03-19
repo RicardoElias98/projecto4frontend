@@ -7,6 +7,7 @@ import Photo from "../Components/Photo";
 
 import { userStore } from "../stores/UserStore";
 import MainDeletedTasks from "../Components/MainDeletedTasks";
+import EditProfileButton from "../Components/EditProfileButton";
 
 function DeletedTasks() {
   const userPhoto = userStore.getState().userPhoto;
@@ -23,6 +24,7 @@ function DeletedTasks() {
           </h2>
         </div>
         <Photo src={userPhoto} />
+        <EditProfileButton />
         <LogoutButton />
       </header>
       <div className="container">

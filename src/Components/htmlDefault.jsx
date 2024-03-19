@@ -6,6 +6,7 @@ import AsideAddTask from "./AsideAddTask";
 import MainSB from "./MainSB";
 import Photo from "./Photo";
 import { userStore } from "../stores/UserStore";
+import EditProfileButton from "./EditProfileButton";
 
 function HtmlDefault() {
   const userPhoto = userStore.getState().userPhoto;
@@ -23,6 +24,7 @@ function HtmlDefault() {
           </h2>
         </div>
         <Photo src={userPhoto} />
+        <EditProfileButton />
         <LogoutButton />
       </header>
       <div className="container">

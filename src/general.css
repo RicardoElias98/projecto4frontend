@@ -127,10 +127,11 @@ input {
 }
 
 .header button {
-  margin-left: auto;
+  margin-left: 10px;
   border-radius: 8px;
   padding: 8px;
-  display: block;
+  display: flex;
+  gap: 10px;
   border-radius: 8px;
   border: grey solid;
   transition: background-color 0.3s;
