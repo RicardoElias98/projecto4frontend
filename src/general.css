@@ -226,7 +226,9 @@ input {
   justify-content: center;
   text-shadow: -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333,
     1px 1px 0 #333;
+  cursor: pointer;
 }
+
 .high-priority {
   background-color: #f58a8a;
 }
@@ -281,6 +283,7 @@ input {
 
   text-shadow: -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333,
     1px 1px 0 #333;
+    cursor: pointer;
 }
 .owner {
   background-color: #f58a8a;
@@ -320,11 +323,10 @@ input {
 
 .links h2 {
   display: inline-block;
-  margin-right: 10px; 
+  margin-right: 10px;
   margin-left: 20px;
 }
 
-
-.label-add-user{
+.label-add-user {
   text-align: center;
 }
