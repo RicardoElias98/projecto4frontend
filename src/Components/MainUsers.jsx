@@ -3,13 +3,15 @@ import "../general.css";
 import { userStore } from "../stores/UserStore";
 import User from "./User";
 
-function MainSB() {
+function MainUsers() {
   const token = userStore.getState().token;
   const [allUsers, setAllUsers] = useState([]);
+  const updateAllUsers = userStore((state) => state.updateAllUsers);
+  const fullUsers = userStore.getState().users;
 
   useEffect(() => {
     displayUsers();
-  }, []);
+  }, [fullUsers]);
 
   const displayUsers = () => {
     fetch("http://localhost:8080/project4backend/rest/user/all", {
@@ -27,6 +29,7 @@ function MainSB() {
           const usersData = await response.json();
           console.log(usersData);
           setAllUsers(usersData);
+          updateAllUsers(usersData);
         }
       })
       .catch((error) => {
@@ -181,4 +184,4 @@ function MainSB() {
   );
 }
 
-export default MainSB;
+export default MainUsers;
