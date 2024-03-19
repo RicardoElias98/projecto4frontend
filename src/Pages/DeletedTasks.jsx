@@ -26,7 +26,6 @@ function DeletedTasks() {
         <LogoutButton />
       </header>
       <div className="container">
-        <aside className="aside" id="aside-app"></aside>
         <main className="main" id="main-app">
           <MainDeletedTasks />
         </main>
