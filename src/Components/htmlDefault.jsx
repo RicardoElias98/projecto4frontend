@@ -14,9 +14,11 @@ function HtmlDefault() {
     <div className="App" id="outer-container">
       <header className="header" id="header-app">
         <h1>Scrum Board</h1>
-        <h2>
+        <div className="links">
+        <h2 className="users-link">
           <Link to="/users">Users</Link>
         </h2>
+        </div>
         <Photo src={userPhoto} />
         <LogoutButton />
       </header>

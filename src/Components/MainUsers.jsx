@@ -9,7 +9,7 @@ function MainSB() {
 
   useEffect(() => {
     displayUsers();
-  }, [allUsers]);
+  }, []);
 
   const displayUsers = () => {
     fetch("http://localhost:8080/project4backend/rest/user/all", {
@@ -49,6 +49,7 @@ function MainSB() {
           alert("User with this token is not found");
         } else if (response.status === 200) {
           console.log("Role updated");
+          displayUsers();
         }
       })
       .catch((error) => {
@@ -79,6 +80,7 @@ function MainSB() {
           const userData = await response.json();
           userData.role = role;
           updateRole(userData);
+          
         }
       })
       .catch((error) => {
