@@ -7,6 +7,7 @@ import MainSB from "./MainSB";
 import Photo from "./Photo";
 import { userStore } from "../stores/UserStore";
 import EditProfileButton from "./EditProfileButton";
+import EditProfileModal from "./EditProfileModal";
 
 function HtmlDefault() {
   const userPhoto = userStore.getState().userPhoto;
@@ -38,6 +39,7 @@ function HtmlDefault() {
       <footer className="footer" id="footer-app">
         {/* Conteúdo do footer */}
       </footer>
+      
     </div>
   );
 }

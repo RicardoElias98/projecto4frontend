@@ -1,25 +1,13 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 
-function EditProfileModal(
-  isOpen,
-  onClose,
-  username,
-  name,
-  email,
-  contactNumber,
-  userPhoto,
-  role
-) {
-  const [isEditProfileModalOpen, setEditProfileModalOpen] = useState(false);
-
+function EditProfileModal({ onClose }) {
   const [formData, setFormData] = useState({
-    username: username,
-    name: name,
-    email: email,
-    contactNumber: contactNumber,
-    userPhoto: userPhoto,
-    role: role,
+    username: "",
+    name: "",
+    email: "",
+    contactNumber: "",
+    userPhoto: "",
+    role: "",
   });
 
   const handleChange = (event) => {
@@ -27,13 +15,10 @@ function EditProfileModal(
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleClose = () => {
-    onClose();
+  const handleCancel = () => {
+    onClose(); 
   };
-
-  if (!isOpen) {
-    return null;
-  }
+  
 
   return (
     <div className="modal" id="userInfoModal">
@@ -93,17 +78,8 @@ function EditProfileModal(
           onChange={handleChange}
         />
         <button> Confirm </button>
-        <button> Cancel onClick={handleClose} </button>
+        <button onClick={handleCancel}> Cancel </button>
       </div>
-      <EditProfileModal
-        isOpen={isEditProfileModalOpen}
-        username={username}
-        name={name}
-        email={email}
-        contactNumber={contactNumber}
-        userPhoto={userPhoto}
-        role={role}
-      />
     </div>
   );
 }

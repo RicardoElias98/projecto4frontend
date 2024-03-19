@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import EditProfileModal from "./EditProfileModal";
-import "../general.css";
 
 function EditProfileButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,6 +15,7 @@ function EditProfileButton() {
   return (
     <>
       <button onClick={openModal}>Edit Profile</button>
+      {isModalOpen && <EditProfileModal onClose={closeModal}  />}
     </>
   );
 }
