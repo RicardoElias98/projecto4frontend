@@ -10,6 +10,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
 import RegisterPage from "./Pages/RegisterPage";
 import Users from "./Pages/Users";
+import DeletedTasks from "./Pages/DeletedTasks";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -23,6 +24,7 @@ root.render(
         <Route path="/registerPage" element={<RegisterPage />} />
         <Route path="/htmlDefault " element={<HtmlDefault />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/deletedTasks" element={<DeletedTasks />} />
       </Routes>
     </Router>
   </React.StrictMode>
