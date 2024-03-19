@@ -4,7 +4,7 @@ import Task from "./Task";
 
 function MainDeletedTasks() {
   const tasks = tasksStore.getState().tasks;
-  const deletedTasks = tasks.filter((task) => task.active === true);
+  const deletedTasks = tasks.filter((task) => task.active === false);
 
   return (
     <div className="board">
@@ -14,7 +14,7 @@ function MainDeletedTasks() {
         </div>
         <div
           className="board-container"
-          id="developer-container"
+          id="deleted-container"
           //onDragOver={(event) => event.preventDefault()}
           //onDrop={(event) => handleDrop(event, "developer")}
         >

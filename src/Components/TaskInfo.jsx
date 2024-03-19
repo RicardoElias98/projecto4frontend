@@ -3,8 +3,6 @@ import "../general.css";
 import { categoriesStore } from "../stores/CategoriesStore";
 import { userStore } from "../stores/UserStore";
 
-
-
 function TaskInfo({
   isOpen,
   onClose,
@@ -19,7 +17,6 @@ function TaskInfo({
 }) {
   const token = userStore.getState().token;
   const categories = categoriesStore.getState().categories;
-  
 
   const priorityMapping = {
     Low: 100,
@@ -41,8 +38,6 @@ function TaskInfo({
   });
 
   const [isEditable, setIsEditable] = useState(false);
-
-  
 
   const handleConfirm = () => {
     console.log(formData);
@@ -81,8 +76,8 @@ function TaskInfo({
 
   const handleDelete = () => {
     const id = formData.id;
-    fetch(`http://localhost:8080/project4backend/rest/task/delete/${id}`, {
-      method: "DELETE",
+    fetch(`http://localhost:8080/project4backend/rest/task/block/${id}`, {
+      method: "PUT",
       headers: {
         Accept: "*/*",
         "Content-Type": "application/json",

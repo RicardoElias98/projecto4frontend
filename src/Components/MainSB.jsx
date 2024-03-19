@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../general.css";
 import { userStore } from "../stores/UserStore";
 import Task from "./Task";
-import {tasksStore} from "../stores/TasksStore";
+import { tasksStore } from "../stores/TasksStore";
 
 function MainSB() {
   const token = userStore.getState().token;
@@ -10,7 +10,7 @@ function MainSB() {
   const [doingTasks, setDoingTasks] = useState([]);
   const [doneTasks, setDoneTasks] = useState([]);
   const [allTasks, setAllTasks] = useState([]);
-  
+
   const updateTask = tasksStore((state) => state.updateTasks);
   const tasks = tasksStore.getState().tasks;
 
@@ -18,10 +18,14 @@ function MainSB() {
     displayTasksByStatus(10, setTodoTasks);
     displayTasksByStatus(20, setDoingTasks);
     displayTasksByStatus(30, setDoneTasks);
-    const combinedTasks = [...todoTasks, ...doingTasks, ...doneTasks];
-      setAllTasks(combinedTasks);
-      updateTask(combinedTasks);
   }, []);
+
+  useEffect(() => {
+    const combinedTasks = [...todoTasks, ...doingTasks, ...doneTasks];
+    setAllTasks(combinedTasks);
+    console.log(combinedTasks);
+    updateTask(combinedTasks);
+  }, [todoTasks, doingTasks, doneTasks]);
 
   const displayTasksByStatus = (status, setTasks) => {
     fetch(`http://localhost:8080/project4backend/rest/task/status`, {
@@ -103,20 +107,22 @@ function MainSB() {
           onDrop={(event) => handleDrop(event, 10)}
         >
           <section className="board-column" id="todo-column">
-            {todoTasks.map((task) => (
-              <Task
-                key={task.id}
-                title={task.title}
-                priority={task.priority}
-                id={task.id}
-                description={task.description}
-                category={task.category}
-                startDate={task.startDate}
-                endDate={task.endDate}
-                status = {task.status}
-                onDragStart={(event) => handleDragStart(event, task.id)}
-              />
-            ))}
+            {todoTasks
+              .filter((task) => task.active === true)
+              .map((task) => (
+                <Task
+                  key={task.id}
+                  title={task.title}
+                  priority={task.priority}
+                  id={task.id}
+                  description={task.description}
+                  category={task.category}
+                  startDate={task.startDate}
+                  endDate={task.endDate}
+                  status={task.status}
+                  onDragStart={(event) => handleDragStart(event, task.id)}
+                />
+              ))}
           </section>
         </div>
       </div>
@@ -131,20 +137,22 @@ function MainSB() {
           onDrop={(event) => handleDrop(event, 20)}
         >
           <section className="board-column" id="doing-column">
-            {doingTasks.map((task) => (
-              <Task
-                key={task.id}
-                title={task.title}
-                priority={task.priority}
-                id={task.id}
-                description={task.description}
-                category={task.category}
-                startDate={task.startDate}
-                endDate={task.endDate}
-                status = {task.status}
-                onDragStart={(event) => handleDragStart(event, task.id)}
-              />
-            ))}
+            {doingTasks
+              .filter((task) => task.active === true)
+              .map((task) => (
+                <Task
+                  key={task.id}
+                  title={task.title}
+                  priority={task.priority}
+                  id={task.id}
+                  description={task.description}
+                  category={task.category}
+                  startDate={task.startDate}
+                  endDate={task.endDate}
+                  status={task.status}
+                  onDragStart={(event) => handleDragStart(event, task.id)}
+                />
+              ))}
           </section>
         </div>
       </div>
@@ -159,20 +167,22 @@ function MainSB() {
           onDrop={(event) => handleDrop(event, 30)}
         >
           <section className="board-column" id="done-column">
-            {doneTasks.map((task) => (
-              <Task
-                key={task.id}
-                title={task.title}
-                priority={task.priority}
-                id={task.id}
-                description={task.description}
-                category={task.category}
-                startDate={task.startDate}
-                endDate={task.endDate}
-                status = {task.status}
-                onDragStart={(event) => handleDragStart(event, task.id)}
-              />
-            ))}
+            {doneTasks
+              .filter((task) => task.active === true)
+              .map((task) => (
+                <Task
+                  key={task.id}
+                  title={task.title}
+                  priority={task.priority}
+                  id={task.id}
+                  description={task.description}
+                  category={task.category}
+                  startDate={task.startDate}
+                  endDate={task.endDate}
+                  status={task.status}
+                  onDragStart={(event) => handleDragStart(event, task.id)}
+                />
+              ))}
           </section>
         </div>
       </div>
