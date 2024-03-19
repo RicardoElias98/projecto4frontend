@@ -25,12 +25,13 @@ function UserInfo({
 
   const handleClose = () => {
     onClose();
+    setIsEditable(false);
   };
 
   if (!isOpen) {
     return null;
   }
-  
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -58,7 +59,7 @@ function UserInfo({
         <input
           type="text"
           id="nameUser"
-          name="nameuser"
+          name="name"
           value={formData.name}
           onChange={handleChange}
           readOnly={!isEditable}
@@ -80,7 +81,7 @@ function UserInfo({
         <input
           type="text"
           id="phoneNumber"
-          name="phoneNumber"
+          name="contactNumber"
           value={formData.contactNumber}
           onChange={handleChange}
           readOnly={!isEditable}
@@ -91,7 +92,7 @@ function UserInfo({
         <input
           type="text"
           id="photo"
-          name="photo"
+          name="userPhoto"
           value={formData.userPhoto}
           onChange={handleChange}
           readOnly={!isEditable}
