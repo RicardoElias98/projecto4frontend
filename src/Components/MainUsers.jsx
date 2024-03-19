@@ -9,7 +9,7 @@ function MainSB() {
 
   useEffect(() => {
     displayUsers();
-  }, []);
+  }, [allUsers]);
 
   const displayUsers = () => {
     fetch("http://localhost:8080/project4backend/rest/user/all", {
