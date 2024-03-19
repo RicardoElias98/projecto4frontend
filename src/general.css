@@ -316,3 +316,7 @@ input {
 .links h2 {
   margin-left: 20px;
 }
+
+.label-add-user{
+  text-align: center;
+}

@@ -84,27 +84,36 @@ function AsideAddUser() {
         <form onSubmit={handleSubmit}>
           <div>
             <div className="labels-containers">
-              <label htmlFor="username"> Username: </label>
+              <label className="label-add-user" htmlFor="username">
+                {" "}
+                Username:{" "}
+              </label>
               <input
                 type="text"
                 name="username"
                 defaultValue=""
                 onChange={handleChange}
-                placeholder="Your username"
+                placeholder="Username"
               />
               <div className="warning">{warnings.username}</div>
               <label>
-                <label htmlFor="password"> Password: </label>
+                <label className="label-add-user" htmlFor="password">
+                  {" "}
+                  Password:{" "}
+                </label>
                 <input
                   type="password"
                   name="password"
                   defaultValue=""
                   onChange={handleChange}
-                  placeholder="Your Password"
+                  placeholder="Password"
                 />
                 <div className="warning">{warnings.password}</div>
               </label>
-              <label htmlFor="name"> Name: </label>
+              <label className="label-add-user" htmlFor="name">
+                {" "}
+                Name:{" "}
+              </label>
               <input
                 type="text"
                 name="name"
@@ -113,31 +122,40 @@ function AsideAddUser() {
                 placeholder="First and Last Name"
               />
               <div className="warning">{warnings.name}</div>
-              <label htmlFor="email"> Email: </label>
+              <label className="label-add-user" htmlFor="email">
+                {" "}
+                Email:{" "}
+              </label>
               <input
                 type="text"
                 name="email"
                 defaultValue=""
                 onChange={handleChange}
-                placeholder="Your email"
+                placeholder="Email"
               />
               <div className="warning">{warnings.email}</div>
-              <label htmlFor="contactNumber"> Phone number: </label>
+              <label className="label-add-user" htmlFor="contactNumber">
+                {" "}
+                Phone number:{" "}
+              </label>
               <input
                 type="text"
                 name="contactNumber"
                 defaultValue=""
                 onChange={handleChange}
-                placeholder="Your Phone Number"
+                placeholder="Phone Number"
               />
               <div className="warning">{warnings.contactNumber}</div>
-              <label htmlFor="userPhoto"> Photo: </label>
+              <label className="label-add-user" htmlFor="userPhoto">
+                {" "}
+                Photo:{" "}
+              </label>
               <input
                 type="text"
                 name="userPhoto"
                 defaultValue=""
                 onChange={handleChange}
-                placeholder="Your Photo"
+                placeholder="Photo"
               />
               <div className="warning">{warnings.userPhoto}</div>
             </div>
