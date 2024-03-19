@@ -37,16 +37,29 @@ function MainDeletedTasks() {
         </div>
       </div>
       <div className="total-column">
-        <div className="column-header" id="scrumMaster-header">
+        <div className="column-header" id="deletePerm-header">
           <h2> Restore </h2>
         </div>
         <div
           className="board-container"
-          id="scrumMaster-container"
+          id="deletePerm-container"
           //onDragOver={(event) => event.preventDefault()}
           //onDrop={(event) => handleDrop(event, "user")}
         >
-          <section className="board-column" id="scrumMaster-column"></section>
+          <section className="board-column" id="deletePerm-column"></section>
+        </div>
+      </div>
+      <div className="total-column">
+        <div className="column-header" id="restore-header">
+          <h2> PERMANENTLY DELETE </h2>
+        </div>
+        <div
+          className="board-container"
+          id="restore-container"
+          //onDragOver={(event) => event.preventDefault()}
+          //onDrop={(event) => handleDrop(event, "user")}
+        >
+          <section className="board-column" id="restore-column"></section>
         </div>
       </div>
     </div>
