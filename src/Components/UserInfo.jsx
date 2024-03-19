@@ -66,6 +66,28 @@ function UserInfo({
     });
   };
 
+  const handleDelete = () => {
+    const username = formData.username;
+    console.log(username)
+    fetch(`http://localhost:8080/project4backend/rest/user/delete/${username}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        token: token,
+      },
+    }).then(function (response) {
+      if (response.status === 403) {
+        console.log("Forbidden");
+      } else if (response.status === 400) {
+        console.log("Failed. User not deleted");
+      } else if (response.status === 200) {
+        console.log("User deleted");
+        onClose();
+      }
+    });
+  }
+
   return (
     <div className="modal" id="userInfoModal">
       <div className="modal-content">
@@ -141,7 +163,7 @@ function UserInfo({
               {" "}
               Cancel{" "}
             </button>
-            <button className="button" /*onClick={handleDelete}*/>
+            <button className="button" onClick={handleDelete}>
               {" "}
               Delete{" "}
             </button>
