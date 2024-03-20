@@ -6,17 +6,16 @@ import { useEffect } from "react";
 
 function MainDeletedTasks() {
   const token = userStore.getState().token;
-  const tasks = tasksStore.getState().tasks;
+  //const tasks = tasksStore.getState().tasks;
+  const tasks = tasksStore((state) => state.tasks);
+  const updateTasks = tasksStore((state) => state.updateTasks);
+  const tasks2 = tasksStore((state) => JSON.stringify(state.tasks));
+  //const tasks2 = tasksStore((state) => JSON.stringify(state.tasks));
   const deletedTasks = tasks.filter((task) => task.active === false);
-
-  useEffect(() => {
-    
-  }, [tasks]);
 
   const handleDragStart = (event, username) => {
     event.dataTransfer.setData("user_id", username);
   };
-
 
   const handleDropRestore = (event) => {
     const taskId = event.dataTransfer.getData("data_id");
@@ -33,7 +32,12 @@ function MainDeletedTasks() {
         if (response.status === 400) {
           alert("Task with this token is not found");
         } else if (response.status === 200) {
-            alert("Task restored");
+          alert("Task restored");
+          const task = (tasks.find((task) => task.id === taskId).active = true);
+          updateTasks(tasks);
+
+          console.log(task);
+          console.log(tasks);
         }
       })
       .catch((error) => {
@@ -56,14 +60,13 @@ function MainDeletedTasks() {
         if (response.status === 400) {
           alert("Task with this token is not found");
         } else if (response.status === 200) {
-            alert("Task permanently deleted")
+          alert("Task permanently deleted");
         }
       })
       .catch((error) => {
         console.error("Error fetching tasks:", error);
-
       });
-  }
+  };
   return (
     <div className="board">
       <div className="total-column">
@@ -90,12 +93,12 @@ function MainDeletedTasks() {
         </div>
       </div>
       <div className="total-column">
-        <div className="column-header" id="deletePerm-header">
+        <div className="column-header" id="restore-header">
           <h2> Restore </h2>
         </div>
         <div
           className="board-container"
-          id="deletePerm-container"
+          id="restore-container"
           onDragOver={(event) => event.preventDefault()}
           onDrop={(event) => handleDropRestore(event)}
         >
@@ -103,12 +106,12 @@ function MainDeletedTasks() {
         </div>
       </div>
       <div className="total-column">
-        <div className="column-header" id="restore-header">
+        <div className="column-header" id="deletePerm-header">
           <h2> PERMANENTLY DELETE </h2>
         </div>
         <div
           className="board-container"
-          id="restore-container"
+          id="deletePerm-container"
           onDragOver={(event) => event.preventDefault()}
           onDrop={(event) => handleDropDelete(event)}
         >
