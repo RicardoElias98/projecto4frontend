@@ -4,9 +4,8 @@ import { userStore } from "../stores/UserStore";
 
 
 function EditProfileButton() {
-    const token = userStore.getState().token;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const loginUser = userStore((state) => state.loginUser);
   
 
   
@@ -23,7 +22,7 @@ function EditProfileButton() {
   return (
     <>
       <button onClick={openModal}>Edit Profile</button>
-      {isModalOpen && <EditProfileModal onClose={closeModal} />}
+      {isModalOpen && <EditProfileModal onClose={closeModal} user={loginUser}/>}
     </>
   );
 }
