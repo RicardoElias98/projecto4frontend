@@ -170,7 +170,7 @@ function AsideAddUser() {
             </div>
           </div>
           <div className="button-container">
-            <input className="button" type="submit" value="Send" />
+            <input className="button" type="submit" value="Create User" />
           </div>
         </form>
       </div>

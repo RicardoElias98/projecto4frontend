@@ -5,12 +5,13 @@ import "../general.css";
 import { userStore } from "../stores/UserStore";
 import CategoryModal from "./CategoryModal";
 import AllCategoriesModal from "./AllCategoriesModal";
-import {categoriesStore} from "../stores/CategoriesStore";
+import { categoriesStore } from "../stores/CategoriesStore";
 
 function AsideAddTask() {
   const token = userStore.getState().token;
   const [categories, setCategories] = useState([]);
   const updateCategories = categoriesStore((state) => state.updateCategories);
+  const fullUsers = userStore.getState().allUsers;
 
   useEffect(() => {
     getAllCategories();
@@ -190,6 +191,24 @@ function AsideAddTask() {
         onClose={handleCloseAllCategoriesModal}
         categories={categories}
       />
+      <label htmlFor="category">Filter by Category:</label>
+      <select id="categoryFilter" defaultValue="" name="categoryFilter">
+        <option value="">Choose a category...</option>
+        {categories.map((category) => (
+          <option key={category.id} value={category.name}>
+            {category.name}
+          </option>
+        ))}
+      </select>
+      <label htmlFor="category">Filter by User:</label>
+      <select id="userFilter" defaultValue="" name="userFilter">
+        <option value="">Choose an user...</option>
+        {fullUsers.map((user) => (
+          <option key={user.id} value={user.username}>
+            {user.username}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }
