@@ -8,6 +8,7 @@ function EditProfileModal({ onClose }) {
     contactNumber: "",
     userPhoto: "",
     role: "",
+    password: "",
   });
 
   const handleChange = (event) => {
@@ -75,6 +76,26 @@ function EditProfileModal({ onClose }) {
           id="photo"
           name="userPhoto"
           value={formData.userPhoto}
+          onChange={handleChange}
+        />
+        <label className="h2" htmlFor="password">
+        Current Password:
+        </label>
+        <input
+          type="text"
+          id="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+        />
+        <label className="h2" htmlFor="newpassword">
+        New Password:
+        </label>
+        <input
+          type="text"
+          id="newpassword"
+          name="newpassword"
+          value=""
           onChange={handleChange}
         />
         <button> Confirm </button>
