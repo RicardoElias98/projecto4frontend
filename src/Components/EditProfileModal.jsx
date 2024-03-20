@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { userStore } from "../stores/UserStore";
 
 function EditProfileModal({ onClose, user }) {
   const [formData, setFormData] = useState({
@@ -10,15 +11,43 @@ function EditProfileModal({ onClose, user }) {
     password: user.password,
   });
 
+  const updateLoginUser = userStore((state) => state.updateLoginUser);
+
+  const token = userStore.getState().token;
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleCancel = () => {
-    onClose(); 
+    onClose();
   };
-  
+
+  const handleConfirm = () => {
+    console.log(formData);
+    fetch("http://localhost:8080/project4backend/rest/user/update", {
+      method: "PUT",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        token: token,
+      },
+      body: JSON.stringify(formData),
+    }).then(function (response) {
+      if (response.status === 404) {
+        console.log("User not found");
+      } else if (response.status === 406) {
+        console.log("Failed. User not updated. All elements are required");
+      } else if (response.status === 400) {
+        console.log("Failed. User not updated. All elements are required");
+      } else if (response.status === 200) {
+        console.log("User updated");
+        updateLoginUser(formData);
+        onClose();
+      }
+    });
+  };
 
   return (
     <div className="modal" id="userInfoModal">
@@ -78,7 +107,7 @@ function EditProfileModal({ onClose, user }) {
           onChange={handleChange}
         />
         <label className="h2" htmlFor="password">
-        Current Password:
+          Current Password:
         </label>
         <input
           type="text"
@@ -88,7 +117,7 @@ function EditProfileModal({ onClose, user }) {
           onChange={handleChange}
         />
         <label className="h2" htmlFor="newpassword">
-        New Password:
+          New Password:
         </label>
         <input
           type="text"
@@ -97,7 +126,7 @@ function EditProfileModal({ onClose, user }) {
           value=""
           onChange={handleChange}
         />
-        <button> Confirm </button>
+        <button onClick={handleConfirm}> Confirm </button>
         <button onClick={handleCancel}> Cancel </button>
       </div>
     </div>

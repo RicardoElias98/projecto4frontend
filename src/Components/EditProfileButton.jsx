@@ -7,10 +7,6 @@ function EditProfileButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const loginUser = userStore((state) => state.loginUser);
   
-
-  
-  
-
   const openModal = () => {
     setIsModalOpen(true);
   };
