@@ -106,26 +106,7 @@ function EditProfileModal({ onClose, user }) {
           value={formData.userPhoto}
           onChange={handleChange}
         />
-        <label className="h2" htmlFor="password">
-          Current Password:
-        </label>
-        <input
-          type="text"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <label className="h2" htmlFor="newpassword">
-          New Password:
-        </label>
-        <input
-          type="text"
-          id="newpassword"
-          name="newpassword"
-          value=""
-          onChange={handleChange}
-        />
+        
         <button onClick={handleConfirm}> Confirm </button>
         <button onClick={handleCancel}> Cancel </button>
       </div>

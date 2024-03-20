@@ -54,7 +54,7 @@ function AllCategoriesModal({ isOpen, onClose, categories }) {
   const onDelete = (oldName) => {
     if (oldName) {
       fetch(
-        `http://localhost:8080/project4backend/rest/task//deleteCategory/${oldName}`,
+        `http://localhost:8080/project4backend/rest/task/deleteCategory/${oldName}`,
         {
           method: "DELETE",
           headers: {
