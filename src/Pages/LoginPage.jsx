@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { userStore } from "../stores/UserStore";
 
-
 function LoginPage() {
   const navigate = useNavigate();
   const updateToken = userStore((state) => state.updateToken);
   const updateUserPhoto = userStore((state) => state.updateUserPhoto);
+  const updateLoginUser = userStore((state) => state.updateLoginUser);
+  
 
   //Dados do formulário
   const [formData, setFormData] = useState({
@@ -29,6 +30,28 @@ function LoginPage() {
     navigate("/htmlDefault", { replace: true });
   };
 
+  const findUser = (username, token) => {
+    fetch(`http://localhost:8080/project4backend/rest/user/${username}`, {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        token: token,
+      }, 
+    })
+      .then(async function (response) {
+        if (response.status === 404) {
+          alert("Username not found");
+        } else if (response.status === 200) {
+          const user = await response.json();
+          updateLoginUser(user);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching user:", error);
+      });
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -48,6 +71,7 @@ function LoginPage() {
       } else if (response.status === 200) {
         const token = await response.text();
         updateToken(token);
+        findUser(formData.username, token);
         fetch("http://localhost:8080/project4backend/rest/user/photo", {
           method: "GET",
           headers: {

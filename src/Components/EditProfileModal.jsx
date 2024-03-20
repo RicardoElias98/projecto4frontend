@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 
-function EditProfileModal({ onClose }) {
+function EditProfileModal({ onClose, user }) {
   const [formData, setFormData] = useState({
-    username: "",
-    name: "",
-    email: "",
-    contactNumber: "",
-    userPhoto: "",
-    role: "",
-    password: "",
+    username: user.username,
+    name: user.name,
+    email: user.email,
+    contactNumber: user.contactNumber,
+    userPhoto: user.userPhoto,
+    password: user.password,
   });
 
   const handleChange = (event) => {

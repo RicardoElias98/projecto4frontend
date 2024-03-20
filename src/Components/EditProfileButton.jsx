@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditProfileModal from "./EditProfileModal";
+import { userStore } from "../stores/UserStore";
+
 
 function EditProfileButton() {
+    const token = userStore.getState().token;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  
+
+  
+  
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -15,7 +23,7 @@ function EditProfileButton() {
   return (
     <>
       <button onClick={openModal}>Edit Profile</button>
-      {isModalOpen && <EditProfileModal onClose={closeModal}  />}
+      {isModalOpen && <EditProfileModal onClose={closeModal} />}
     </>
   );
 }

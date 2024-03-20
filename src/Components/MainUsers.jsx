@@ -8,6 +8,7 @@ function MainUsers() {
   const [allUsers, setAllUsers] = useState([]);
   const updateAllUsers = userStore((state) => state.updateAllUsers);
   const fullUsers = userStore.getState().users;
+  
 
   useEffect(() => {
     displayUsers();
@@ -83,7 +84,6 @@ function MainUsers() {
           const userData = await response.json();
           userData.role = role;
           updateRole(userData);
-          
         }
       })
       .catch((error) => {
