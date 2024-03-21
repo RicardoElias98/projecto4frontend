@@ -3,6 +3,7 @@ import "../general.css";
 import { userStore } from "../stores/UserStore";
 import Task from "./Task";
 import { tasksStore } from "../stores/TasksStore";
+import { categoriesStore } from "../stores/CategoriesStore";
 
 function MainSB() {
   const token = userStore.getState().token;
@@ -10,6 +11,8 @@ function MainSB() {
   const [doingTasks, setDoingTasks] = useState([]);
   const [doneTasks, setDoneTasks] = useState([]);
   const [allTasks, setAllTasks] = useState([]);
+  const selectedCategory = categoriesStore((state) => state.selectedCategory);
+  
 
   const updateTask = tasksStore((state) => state.updateTasks);
   const tasks = tasksStore.getState().tasks;
@@ -108,7 +111,7 @@ function MainSB() {
         >
           <section className="board-column" id="todo-column">
             {todoTasks
-              .filter((task) => task.active === true)
+              .filter((task) => task.active === true && (!selectedCategory || task.category === selectedCategory))
               .map((task) => (
                 <Task
                   key={task.id}
@@ -138,7 +141,7 @@ function MainSB() {
         >
           <section className="board-column" id="doing-column">
             {doingTasks
-              .filter((task) => task.active === true)
+              .filter((task) => task.active === true && (!selectedCategory || task.category === selectedCategory))
               .map((task) => (
                 <Task
                   key={task.id}
@@ -168,7 +171,7 @@ function MainSB() {
         >
           <section className="board-column" id="done-column">
             {doneTasks
-              .filter((task) => task.active === true)
+              .filter((task) => task.active === true && (!selectedCategory || task.category === selectedCategory))
               .map((task) => (
                 <Task
                   key={task.id}

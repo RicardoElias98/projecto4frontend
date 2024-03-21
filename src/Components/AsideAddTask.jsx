@@ -12,6 +12,9 @@ function AsideAddTask() {
   const [categories, setCategories] = useState([]);
   const updateCategories = categoriesStore((state) => state.updateCategories);
   const fullUsers = userStore.getState().allUsers;
+  const updateSelectedCategory = categoriesStore(
+    (state) => state.updateSelectedCategory
+  );
 
   useEffect(() => {
     getAllCategories();
@@ -108,6 +111,10 @@ function AsideAddTask() {
     });
   };
 
+  const handleChangeFilter = (event) => {
+    updateSelectedCategory(event.target.value);
+  };
+
   return (
     <div>
       {" "}
@@ -196,7 +203,7 @@ function AsideAddTask() {
         id="categoryFilter"
         defaultValue=""
         name="categoryFilter"
-        //onChange={handleChangeFilter}
+        onChange={handleChangeFilter}
       >
         <option value="">Choose a category...</option>
         {categories.map((category) => (

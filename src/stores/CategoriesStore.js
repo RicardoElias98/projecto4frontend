@@ -6,6 +6,7 @@ export const categoriesStore = create(
     (set) => ({
       categories: "",
       updateCategories: (categories) => set({ categories }),
+      updateSelectedCategory: (selectedCategory) => set({ selectedCategory }),
     }),
     {
       name: "mystorageCategories",
