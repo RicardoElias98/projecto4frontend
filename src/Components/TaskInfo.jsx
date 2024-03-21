@@ -24,9 +24,9 @@ function TaskInfo({
     High: 300,
   };
 
-  console.log(priority);
+  
   const priorityValue = priorityMapping[priority];
-  console.log(priorityValue);
+ 
 
   const [formData, setFormData] = useState({
     title: taskName,

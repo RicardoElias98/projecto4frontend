@@ -16,12 +16,15 @@ function MainSB() {
 
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [filteredTasksUser, setFilteredTasksUser] = useState([]);
-  const [filteredTasksCategoryUser, setFilteredTasksCategoryUser] = useState([]);
+  const [filteredTasksCategoryUser, setFilteredTasksCategoryUser] = useState(
+    []
+  );
 
   const updateTask = tasksStore((state) => state.updateTasks);
   const tasks = tasksStore.getState().tasks;
 
   useEffect(() => {
+    console.log("Updating from filters");
     if (!selectedCategory && !selectedUser) {
       displayTasksByStatus(10, setTodoTasks);
       displayTasksByStatus(20, setDoingTasks);
@@ -31,11 +34,10 @@ function MainSB() {
       displayFilterCategory(selectedCategory);
       console.log("2");
     } else if (!selectedCategory && selectedUser) {
-      displayFilterUser(selectedUser.username);
+      displayFilterUser(selectedUser);
       console.log("3");
     } else if (selectedCategory && selectedUser) {
-      displayFilterCategoryUser(selectedCategory, selectedUser.username);
-      
+      displayFilterCategoryUser(selectedCategory, selectedUser);
     }
   }, [selectedCategory, selectedUser]);
 
@@ -68,32 +70,16 @@ function MainSB() {
 
   useEffect(() => {
     const todo = filteredTasksCategoryUser.filter((task) => task.status === 10);
-    const doing = filteredTasksCategoryUser.filter((task) => task.status === 20);
+    const doing = filteredTasksCategoryUser.filter(
+      (task) => task.status === 20
+    );
     const done = filteredTasksCategoryUser.filter((task) => task.status === 30);
+    console.log("ENTREI");
 
     setTodoTasks(todo);
     setDoingTasks(doing);
     setDoneTasks(done);
   }, [filteredTasksCategoryUser]);
-
-  useEffect(() => {
-    if (selectedCategory) {
-      displayFilterCategory(selectedCategory);
-    }
-  }, [selectedCategory]);
-
-  useEffect(() => {
-    if (selectedUser) {
-      displayFilterUser(selectedUser);
-    }
-  }, [selectedUser]);
-
-  useEffect(() => {
-    if(selectedCategory && selectedUser){
-      displayFilterCategoryUser(selectedCategory, selectedUser.username);
-    }
-  }, [selectedCategory, selectedUser]);
-  
 
   const displayTasksByStatus = (status, setTasks) => {
     fetch(`http://localhost:8080/project4backend/rest/task/status`, {
@@ -134,6 +120,8 @@ function MainSB() {
   };
 
   const displayFilterCategoryUser = (category, username) => {
+    console.log("Username: " + username);
+    console.log("Category: " + category);
     fetch(
       `http://localhost:8080/project4backend/rest/task/byCategoryAndUser/${category}/${username}`,
       {
@@ -154,7 +142,6 @@ function MainSB() {
       }
     });
   };
-
 
   const displayFilterCategory = (category) => {
     fetch(
