@@ -11,6 +11,7 @@ export const userStore = create(
       updateUserPhoto: (userPhoto) => set({ userPhoto }),
       updateAllUsers: (allUsers) => set({ allUsers }),
       updateLoginUser: (loginUser) => set({ loginUser }),
+      updateUserSelected: (userSelected) => set({ userSelected }),
     }),
     {
       name: "mystorage",

@@ -12,6 +12,7 @@ function MainSB() {
   const [doneTasks, setDoneTasks] = useState([]);
   const [allTasks, setAllTasks] = useState([]);
   const selectedCategory = categoriesStore((state) => state.selectedCategory);
+  const selectedUser = userStore((state) => state.selectedUser);
   
 
   const updateTask = tasksStore((state) => state.updateTasks);
@@ -111,7 +112,8 @@ function MainSB() {
         >
           <section className="board-column" id="todo-column">
             {todoTasks
-              .filter((task) => task.active === true && (!selectedCategory || task.category === selectedCategory))
+              .filter((task) => task.active === true && (!selectedCategory || task.category === selectedCategory)  &&
+              (!selectedUser || task.user === selectedUser))
               .map((task) => (
                 <Task
                   key={task.id}
@@ -141,7 +143,8 @@ function MainSB() {
         >
           <section className="board-column" id="doing-column">
             {doingTasks
-              .filter((task) => task.active === true && (!selectedCategory || task.category === selectedCategory))
+              .filter((task) => task.active === true && (!selectedCategory || task.category === selectedCategory)  &&
+              (!selectedUser || task.user === selectedUser))
               .map((task) => (
                 <Task
                   key={task.id}
@@ -171,7 +174,8 @@ function MainSB() {
         >
           <section className="board-column" id="done-column">
             {doneTasks
-              .filter((task) => task.active === true && (!selectedCategory || task.category === selectedCategory))
+              .filter((task) => task.active === true && (!selectedCategory || task.category === selectedCategory)  &&
+              (!selectedUser || task.user === selectedUser))
               .map((task) => (
                 <Task
                   key={task.id}

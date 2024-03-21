@@ -15,6 +15,7 @@ function AsideAddTask() {
   const updateSelectedCategory = categoriesStore(
     (state) => state.updateSelectedCategory
   );
+  const updateUserSelected = userStore((state) => state.updateUserSelected);
 
   useEffect(() => {
     getAllCategories();
@@ -115,6 +116,10 @@ function AsideAddTask() {
     updateSelectedCategory(event.target.value);
   };
 
+  const handleChangeFilterUser = (event) => {
+    updateUserSelected(event.target.value);
+  };
+
   return (
     <div>
       {" "}
@@ -213,7 +218,7 @@ function AsideAddTask() {
         ))}
       </select>
       <label htmlFor="category">Filter by User:</label>
-      <select id="userFilter" defaultValue="" name="userFilter">
+      <select id="userFilter" defaultValue="" name="userFilter" onChange={handleChangeFilterUser}>
         <option value="">Choose an user...</option>
         {fullUsers.map((user) => (
           <option key={user.id} value={user.username}>
