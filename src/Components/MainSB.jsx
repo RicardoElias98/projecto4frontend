@@ -12,20 +12,29 @@ function MainSB() {
   const [doneTasks, setDoneTasks] = useState([]);
   const [allTasks, setAllTasks] = useState([]);
   const selectedCategory = categoriesStore((state) => state.selectedCategory);
-  const selectedUser = userStore((state) => state.selectedUser);
+  const selectedUser = userStore((state) => state.userSelected);
+
   const [filteredTasks, setFilteredTasks] = useState([]);
+  const [filteredTasksUser, setFilteredTasksUser] = useState([]);
 
   const updateTask = tasksStore((state) => state.updateTasks);
   const tasks = tasksStore.getState().tasks;
 
   useEffect(() => {
-    if (!selectedCategory) {
+    if (!selectedCategory && !selectedUser) {
       displayTasksByStatus(10, setTodoTasks);
       displayTasksByStatus(20, setDoingTasks);
       displayTasksByStatus(30, setDoneTasks);
+      console.log("1");
+    } else if (selectedCategory && !selectedUser) {
+      displayFilterCategory(selectedCategory);
+      console.log("2");
+    } else if (!selectedCategory && selectedUser) {
+      displayFilterUser(selectedUser.username);
+      console.log("3");
+    } else {
     }
-  }, [selectedCategory]);
-  
+  }, [selectedCategory, selectedUser]);
 
   useEffect(() => {
     const combinedTasks = [...todoTasks, ...doingTasks, ...doneTasks];
@@ -45,10 +54,26 @@ function MainSB() {
   }, [filteredTasks]);
 
   useEffect(() => {
+    const todo = filteredTasksUser.filter((task) => task.status === 10);
+    const doing = filteredTasksUser.filter((task) => task.status === 20);
+    const done = filteredTasksUser.filter((task) => task.status === 30);
+
+    setTodoTasks(todo);
+    setDoingTasks(doing);
+    setDoneTasks(done);
+  }, [filteredTasksUser]);
+
+  useEffect(() => {
     if (selectedCategory) {
       displayFilterCategory(selectedCategory);
     }
   }, [selectedCategory]);
+
+  useEffect(() => {
+    if (selectedUser) {
+      displayFilterUser(selectedUser);
+    }
+  }, [selectedUser]);
 
   const displayTasksByStatus = (status, setTasks) => {
     fetch(`http://localhost:8080/project4backend/rest/task/status`, {
@@ -106,6 +131,28 @@ function MainSB() {
         const tasksData = await response.json();
         setAllTasks(tasksData);
         setFilteredTasks(tasksData);
+      }
+    });
+  };
+
+  const displayFilterUser = (username) => {
+    fetch(
+      `http://localhost:8080/project4backend/rest/task/byUser/${username}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+          token: token,
+        },
+      }
+    ).then(async function (response) {
+      if (response.status === 401) {
+        alert("Unauthorized");
+      } else if (response.status === 200) {
+        const tasksData = await response.json();
+        setAllTasks(tasksData);
+        setFilteredTasksUser(tasksData);
       }
     });
   };
