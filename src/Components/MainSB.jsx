@@ -13,16 +13,19 @@ function MainSB() {
   const [allTasks, setAllTasks] = useState([]);
   const selectedCategory = categoriesStore((state) => state.selectedCategory);
   const selectedUser = userStore((state) => state.selectedUser);
-  
+  const [filteredTasks, setFilteredTasks] = useState([]);
 
   const updateTask = tasksStore((state) => state.updateTasks);
   const tasks = tasksStore.getState().tasks;
 
   useEffect(() => {
-    displayTasksByStatus(10, setTodoTasks);
-    displayTasksByStatus(20, setDoingTasks);
-    displayTasksByStatus(30, setDoneTasks);
-  }, []);
+    if (!selectedCategory) {
+      displayTasksByStatus(10, setTodoTasks);
+      displayTasksByStatus(20, setDoingTasks);
+      displayTasksByStatus(30, setDoneTasks);
+    }
+  }, [selectedCategory]);
+  
 
   useEffect(() => {
     const combinedTasks = [...todoTasks, ...doingTasks, ...doneTasks];
@@ -30,6 +33,22 @@ function MainSB() {
     console.log(combinedTasks);
     updateTask(combinedTasks);
   }, [todoTasks, doingTasks, doneTasks]);
+
+  useEffect(() => {
+    const todo = filteredTasks.filter((task) => task.status === 10);
+    const doing = filteredTasks.filter((task) => task.status === 20);
+    const done = filteredTasks.filter((task) => task.status === 30);
+
+    setTodoTasks(todo);
+    setDoingTasks(doing);
+    setDoneTasks(done);
+  }, [filteredTasks]);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      displayFilterCategory(selectedCategory);
+    }
+  }, [selectedCategory]);
 
   const displayTasksByStatus = (status, setTasks) => {
     fetch(`http://localhost:8080/project4backend/rest/task/status`, {
@@ -67,6 +86,28 @@ function MainSB() {
     displayTasksByStatus(10, setTodoTasks);
     displayTasksByStatus(20, setDoingTasks);
     displayTasksByStatus(30, setDoneTasks);
+  };
+
+  const displayFilterCategory = (category) => {
+    fetch(
+      `http://localhost:8080/project4backend/rest/task/byCategory/${category}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+          token: token,
+        },
+      }
+    ).then(async function (response) {
+      if (response.status === 401) {
+        alert("Unauthorized");
+      } else if (response.status === 200) {
+        const tasksData = await response.json();
+        setAllTasks(tasksData);
+        setFilteredTasks(tasksData);
+      }
+    });
   };
 
   const updateStatus = (newStatus, idTask) => {
@@ -112,8 +153,7 @@ function MainSB() {
         >
           <section className="board-column" id="todo-column">
             {todoTasks
-              .filter((task) => task.active === true && (!selectedCategory || task.category === selectedCategory)  &&
-              (!selectedUser || task.user === selectedUser))
+              .filter((task) => task.active === true)
               .map((task) => (
                 <Task
                   key={task.id}
@@ -143,8 +183,7 @@ function MainSB() {
         >
           <section className="board-column" id="doing-column">
             {doingTasks
-              .filter((task) => task.active === true && (!selectedCategory || task.category === selectedCategory)  &&
-              (!selectedUser || task.user === selectedUser))
+              .filter((task) => task.active === true)
               .map((task) => (
                 <Task
                   key={task.id}
@@ -174,8 +213,7 @@ function MainSB() {
         >
           <section className="board-column" id="done-column">
             {doneTasks
-              .filter((task) => task.active === true && (!selectedCategory || task.category === selectedCategory)  &&
-              (!selectedUser || task.user === selectedUser))
+              .filter((task) => task.active === true)
               .map((task) => (
                 <Task
                   key={task.id}
