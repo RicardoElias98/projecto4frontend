@@ -13,7 +13,6 @@ function MainSB() {
   const [allTasks, setAllTasks] = useState([]);
   const selectedCategory = categoriesStore((state) => state.selectedCategory);
   const selectedUser = userStore((state) => state.userSelected);
-
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [filteredTasksUser, setFilteredTasksUser] = useState([]);
   const [filteredTasksCategoryUser, setFilteredTasksCategoryUser] = useState(
@@ -39,7 +38,7 @@ function MainSB() {
     } else if (selectedCategory && selectedUser) {
       displayFilterCategoryUser(selectedCategory, selectedUser);
     }
-  }, [selectedCategory, selectedUser]);
+  }, [selectedCategory, selectedUser, tasks]);
 
   useEffect(() => {
     const combinedTasks = [...todoTasks, ...doingTasks, ...doneTasks];
@@ -114,9 +113,7 @@ function MainSB() {
 
     updateStatus(status, taskId);
 
-    displayTasksByStatus(10, setTodoTasks);
-    displayTasksByStatus(20, setDoingTasks);
-    displayTasksByStatus(30, setDoneTasks);
+    
   };
 
   const displayFilterCategoryUser = (category, username) => {
