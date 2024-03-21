@@ -16,6 +16,7 @@ function MainSB() {
 
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [filteredTasksUser, setFilteredTasksUser] = useState([]);
+  const [filteredTasksCategoryUser, setFilteredTasksCategoryUser] = useState([]);
 
   const updateTask = tasksStore((state) => state.updateTasks);
   const tasks = tasksStore.getState().tasks;
@@ -32,7 +33,9 @@ function MainSB() {
     } else if (!selectedCategory && selectedUser) {
       displayFilterUser(selectedUser.username);
       console.log("3");
-    } else {
+    } else if (selectedCategory && selectedUser) {
+      displayFilterCategoryUser(selectedCategory, selectedUser.username);
+      
     }
   }, [selectedCategory, selectedUser]);
 
@@ -64,6 +67,16 @@ function MainSB() {
   }, [filteredTasksUser]);
 
   useEffect(() => {
+    const todo = filteredTasksCategoryUser.filter((task) => task.status === 10);
+    const doing = filteredTasksCategoryUser.filter((task) => task.status === 20);
+    const done = filteredTasksCategoryUser.filter((task) => task.status === 30);
+
+    setTodoTasks(todo);
+    setDoingTasks(doing);
+    setDoneTasks(done);
+  }, [filteredTasksCategoryUser]);
+
+  useEffect(() => {
     if (selectedCategory) {
       displayFilterCategory(selectedCategory);
     }
@@ -74,6 +87,13 @@ function MainSB() {
       displayFilterUser(selectedUser);
     }
   }, [selectedUser]);
+
+  useEffect(() => {
+    if(selectedCategory && selectedUser){
+      displayFilterCategoryUser(selectedCategory, selectedUser.username);
+    }
+  }, [selectedCategory, selectedUser]);
+  
 
   const displayTasksByStatus = (status, setTasks) => {
     fetch(`http://localhost:8080/project4backend/rest/task/status`, {
@@ -112,6 +132,29 @@ function MainSB() {
     displayTasksByStatus(20, setDoingTasks);
     displayTasksByStatus(30, setDoneTasks);
   };
+
+  const displayFilterCategoryUser = (category, username) => {
+    fetch(
+      `http://localhost:8080/project4backend/rest/task/byCategoryAndUser/${category}/${username}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+          token: token,
+        },
+      }
+    ).then(async function (response) {
+      if (response.status === 401) {
+        alert("Unauthorized");
+      } else if (response.status === 200) {
+        const tasksData = await response.json();
+        setAllTasks(tasksData);
+        setFilteredTasksCategoryUser(tasksData);
+      }
+    });
+  };
+
 
   const displayFilterCategory = (category) => {
     fetch(
