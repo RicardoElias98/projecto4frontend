@@ -32,7 +32,6 @@ function MainDeletedTasks() {
         if (response.status === 400) {
           alert("Task with this token is not found");
         } else if (response.status === 200) {
-          alert("Task restored");
           const task = (tasks.find((task) => task.id === taskId).active = true);
           updateTasks(tasks);
 

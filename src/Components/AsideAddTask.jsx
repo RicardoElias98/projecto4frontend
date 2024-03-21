@@ -192,7 +192,12 @@ function AsideAddTask() {
         categories={categories}
       />
       <label htmlFor="category">Filter by Category:</label>
-      <select id="categoryFilter" defaultValue="" name="categoryFilter">
+      <select
+        id="categoryFilter"
+        defaultValue=""
+        name="categoryFilter"
+        //onChange={handleChangeFilter}
+      >
         <option value="">Choose a category...</option>
         {categories.map((category) => (
           <option key={category.id} value={category.name}>
