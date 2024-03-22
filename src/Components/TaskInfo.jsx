@@ -17,6 +17,9 @@ function TaskInfo({
 }) {
   const token = userStore.getState().token;
   const categories = categoriesStore.getState().categories;
+  const counter = userStore((state) => state.counter);
+
+  const updateCounter = userStore((state) => state.updateCounter);
 
   const priorityMapping = {
     Low: 100,
@@ -62,6 +65,7 @@ function TaskInfo({
         console.log("Failed. Task not updated");
       } else if (response.status === 200) {
         console.log("Task updated");
+        updateCounter(counter + 1);
         onClose();
       }
     });
@@ -92,6 +96,7 @@ function TaskInfo({
         console.log("Failed. Task not deleted");
       } else if (response.status === 200) {
         console.log("Task deleted");
+        updateCounter(counter - 1);
         onClose();
       }
     });

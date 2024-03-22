@@ -18,6 +18,9 @@ function AsideAddTask() {
   const updateUserSelected = userStore((state) => state.updateUserSelected);
   const categorySelected = categoriesStore((state) => state.selectedCategory);
   const selectedUser = userStore((state) => state.userSelected);
+  const counter = userStore((state) => state.counter);
+
+  const updateCounter = userStore((state) => state.updateCounter);
 
   useEffect(() => {
     getAllCategories();
@@ -109,7 +112,14 @@ function AsideAddTask() {
       } else if (response.status === 400) {
         alert("All elements are required");
       } else if (response.status === 201) {
-        alert("Task created.");
+        updateCounter(counter + 1);
+        setFormData({
+          taskName: "",
+          taskDescription: "",
+          category: "",
+          startDate: "",
+          endDate: "",
+        });
       }
     });
   };
