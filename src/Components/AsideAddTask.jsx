@@ -115,12 +115,14 @@ function AsideAddTask() {
   };
 
   const handleChangeFilter = (event) => {
-    updateSelectedCategory(event.target.value);
-    
+    const selectedCategory = event.target.value;
+    updateSelectedCategory(selectedCategory === "" ? "" : selectedCategory);
   };
+  
 
   const handleChangeFilterUser = (event) => {
     updateUserSelected(event.target.value);
+    updateUserSelected(event.target.value === "" ? "" : event.target.value);
    
   };
 
@@ -214,7 +216,7 @@ function AsideAddTask() {
         name="categoryFilter"
         onChange={handleChangeFilter}
       >
-        <option value={categorySelected}>Choose a category...</option>
+        <option value="">Choose a category...</option>
         {categories.map((category) => (
           <option key={category.id} value={category.name}>
             {category.name}
@@ -223,13 +225,13 @@ function AsideAddTask() {
       </select>
       <label htmlFor="user">Filter by User:</label>
       <select id="userFilter" defaultValue={selectedUser} name="userFilter" onChange={handleChangeFilterUser}>
-        <option value={selectedUser}>Choose an user...</option>
+        <option value="">Choose an user...</option>
         {fullUsers.map((user) => (
           <option key={user.id} value={user.username}>
             {user.username}
           </option>
         ))}
-      </select>
+      </select> 
     </div>
   );
 }
