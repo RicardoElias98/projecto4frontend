@@ -18,12 +18,16 @@ function MainSB() {
   const [filteredTasksCategoryUser, setFilteredTasksCategoryUser] = useState(
     []
   );
-
-  const updateTask = tasksStore((state) => state.updateTasks);
   const tasks = tasksStore.getState().tasks;
+  const updateTask = tasksStore((state) => state.updateTasks);
+  const tasks2 = tasksStore((state) => JSON.stringify(state.tasks));
+  const counter = userStore((state) => state.counter);
 
+  const updateCounter = userStore((state) => state.updateCounter);
+  
   useEffect(() => {
     console.log("Updating from filters");
+   console.log(counter);
     if (!selectedCategory && !selectedUser) {
       displayTasksByStatus(10, setTodoTasks);
       displayTasksByStatus(20, setDoingTasks);
@@ -38,7 +42,7 @@ function MainSB() {
     } else if (selectedCategory && selectedUser) {
       displayFilterCategoryUser(selectedCategory, selectedUser);
     }
-  }, [selectedCategory, selectedUser]);
+  }, [selectedCategory, selectedUser, counter]);
 
   useEffect(() => {
     const combinedTasks = [...todoTasks, ...doingTasks, ...doneTasks];
@@ -111,7 +115,9 @@ function MainSB() {
     const taskId = event.dataTransfer.getData("data_id");
 
     updateStatus(status, taskId);
-
+    updateCounter(counter + 1);
+    console.log(counter);
+    
     
   };
 

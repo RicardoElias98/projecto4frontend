@@ -12,6 +12,7 @@ export const userStore = create(
       updateAllUsers: (allUsers) => set({ allUsers }),
       updateLoginUser: (loginUser) => set({ loginUser }),
       updateUserSelected: (userSelected) => set({ userSelected }),
+      updateCounter: (counter) => set({ counter }),
     }),
     {
       name: "mystorage",
