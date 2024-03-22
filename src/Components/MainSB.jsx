@@ -38,12 +38,11 @@ function MainSB() {
     } else if (selectedCategory && selectedUser) {
       displayFilterCategoryUser(selectedCategory, selectedUser);
     }
-  }, [selectedCategory, selectedUser, tasks]);
+  }, [selectedCategory, selectedUser]);
 
   useEffect(() => {
     const combinedTasks = [...todoTasks, ...doingTasks, ...doneTasks];
     setAllTasks(combinedTasks);
-    console.log(combinedTasks);
     updateTask(combinedTasks);
   }, [todoTasks, doingTasks, doneTasks]);
 
@@ -96,7 +95,7 @@ function MainSB() {
         } else if (response.status === 200) {
           const tasksData = await response.json();
           setTasks(tasksData);
-          console.log("entrei");
+         
         }
       })
       .catch((error) => {

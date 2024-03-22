@@ -121,9 +121,8 @@ function AsideAddTask() {
   
 
   const handleChangeFilterUser = (event) => {
-    updateUserSelected(event.target.value);
-    updateUserSelected(event.target.value === "" ? "" : event.target.value);
-   
+    const selectedUser = event.target.value;
+    updateUserSelected(selectedUser === "" ? "" : selectedUser);
   };
 
   return (
@@ -227,7 +226,7 @@ function AsideAddTask() {
       <select id="userFilter" defaultValue={selectedUser} name="userFilter" onChange={handleChangeFilterUser}>
         <option value="">Choose an user...</option>
         {fullUsers.map((user) => (
-          <option key={user.id} value={user.username}>
+          <option key={user.username} value={user.username}>
             {user.username}
           </option>
         ))}
