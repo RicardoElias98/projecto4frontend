@@ -10,6 +10,7 @@ import EditProfileButton from "../Components/EditProfileButton";
 
 function Users() {
   const userPhoto = userStore.getState().userPhoto;
+  const firstName = userStore.getState().loginUser.name.split(" ")[0];
   return (
     <div className="App" id="outer-container">
       <header className="header" id="header-app">
@@ -20,6 +21,7 @@ function Users() {
           </h2>
         </div>
         <Photo src={userPhoto} />
+        <h2> {firstName} </h2>
         <EditProfileButton />
         <LogoutButton />
       </header>

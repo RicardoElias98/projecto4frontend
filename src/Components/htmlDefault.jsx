@@ -8,9 +8,12 @@ import Photo from "./Photo";
 import { userStore } from "../stores/UserStore";
 import EditProfileButton from "./EditProfileButton";
 
-
 function HtmlDefault() {
   const userPhoto = userStore.getState().userPhoto;
+  const fullName = userStore.getState().loginUser.name;
+  const firstName = fullName.split(" ")[0];
+  
+
   return (
     <div className="App" id="outer-container">
       <header className="header" id="header-app">
@@ -25,6 +28,7 @@ function HtmlDefault() {
           </h2>
         </div>
         <Photo src={userPhoto} />
+        <h2> {firstName} </h2>
         <EditProfileButton />
         <LogoutButton />
       </header>
@@ -39,7 +43,6 @@ function HtmlDefault() {
       <footer className="footer" id="footer-app">
         {/* Conteúdo do footer */}
       </footer>
-      
     </div>
   );
 }
