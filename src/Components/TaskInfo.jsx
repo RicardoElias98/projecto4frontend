@@ -20,6 +20,7 @@ function TaskInfo({
   const counter = userStore((state) => state.counter);
 
   const updateCounter = userStore((state) => state.updateCounter);
+ 
 
   const priorityMapping = {
     Low: 100,
@@ -27,9 +28,11 @@ function TaskInfo({
     High: 300,
   };
 
-  
-  const priorityValue = priorityMapping[priority];
- 
+  const anotherPriMapping = {
+    100: "Low",
+    200: "Medium",
+    300: "High",
+  };
 
   const [formData, setFormData] = useState({
     title: taskName,
@@ -42,12 +45,34 @@ function TaskInfo({
     status: status,
   });
 
+
   const [isEditable, setIsEditable] = useState(false);
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    console.log(name, value);
+    setFormData(() => ({ ...formData, [name]: value }));
+    console.log("***", formData);
+  };
+
+  
+
+  
+
+
   const handleConfirm = () => {
-    console.log(formData);
-    formData.priority = priorityMapping[formData.priority];
-    console.log(formData);
+    console.log("1º", formData);
+    console.log(formData.priority);
+
+     if (formData.priority == undefined || formData.priority == null) {
+      console.log("Priority is required");
+      formData.priority = priority;
+    } else {
+      formData.priority = priorityMapping[formData.priority];
+    }
+    
+    
+    console.log("2º", formData);
     fetch("http://localhost:8080/project4backend/rest/task/update", {
       method: "PUT",
       headers: {
@@ -66,16 +91,13 @@ function TaskInfo({
       } else if (response.status === 200) {
         console.log("Task updated");
         updateCounter(counter + 1);
+        setIsEditable(false);
         onClose();
       }
     });
   };
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
+  
   const handleEditClick = () => {
     setIsEditable(true);
   };
@@ -159,7 +181,7 @@ function TaskInfo({
         <select
           id="priority"
           name="priority"
-          value={formData.priority}
+          defaultValue={anotherPriMapping[priority]}
           onChange={handleChange}
           disabled={!isEditable}
         >
