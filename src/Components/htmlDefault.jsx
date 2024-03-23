@@ -10,9 +10,10 @@ import EditProfileButton from "./EditProfileButton";
 
 function HtmlDefault() {
   const userPhoto = userStore.getState().userPhoto;
+  const loginUser = userStore.getState().loginUser;
   const fullName = userStore.getState().loginUser.name;
-  const firstName = fullName.split(" ")[0];
-  
+  const firstName = userStore.getState().loginUser.name.split(" ")[0];
+  const role = userStore.getState().loginUser.role;
 
   return (
     <div className="App" id="outer-container">
@@ -20,11 +21,15 @@ function HtmlDefault() {
         <h1>Scrum Board</h1>
         <div className="links">
           <h2 className="users-link">
-            <Link to="/users">Users</Link>
+            {(role === "Owner" || role === "user") && (
+              <Link to="/users">Users</Link>
+            )}
           </h2>
 
           <h2 className="Deleted-tasks-link">
-            <Link to="/deletedTasks"> Deleted Tasks</Link>
+            {(role === "Owner" || role === "user") && (
+              <Link to="/deletedTasks"> Deleted Tasks</Link>
+            )}
           </h2>
         </div>
         <Photo src={userPhoto} />

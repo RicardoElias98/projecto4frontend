@@ -45,6 +45,7 @@ function LoginPage() {
         } else if (response.status === 200) {
           const user = await response.json();
           updateLoginUser(user);
+          
         }
       })
       .catch((error) => {

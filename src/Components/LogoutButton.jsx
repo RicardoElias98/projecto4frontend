@@ -7,6 +7,7 @@ function LogoutButton() {
   const navigate = useNavigate();
   const token = userStore.getState().token;
   const updateToken = userStore((state) => state.updateToken);
+  const updateLoginUser = userStore((state) => state.updateLoginUser);
 
   const logoutSucess = () => {
     
@@ -28,6 +29,7 @@ function LogoutButton() {
         alert("Forbidden");
       } else if (response.status === 200) {
         updateToken("");
+        updateLoginUser("");
         logoutSucess();
       }
     });

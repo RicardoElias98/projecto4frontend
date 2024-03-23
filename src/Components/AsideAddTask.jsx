@@ -21,6 +21,7 @@ function AsideAddTask() {
   const counter = userStore((state) => state.counter);
 
   const updateCounter = userStore((state) => state.updateCounter);
+  const role = userStore.getState().loginUser.role;
 
   useEffect(() => {
     getAllCategories();
@@ -128,7 +129,6 @@ function AsideAddTask() {
     const selectedCategory = event.target.value;
     updateSelectedCategory(selectedCategory === "" ? "" : selectedCategory);
   };
-  
 
   const handleChangeFilterUser = (event) => {
     const selectedUser = event.target.value;
@@ -203,44 +203,53 @@ function AsideAddTask() {
           Add task
         </button>
       </form>
-      <button className="button" onClick={handleOpenCategoryModal}>
-        Add Category
-      </button>
-      <CategoryModal
-        isOpen={isCategoryModalOpen}
-        onClose={handleCloseCategoryModal}
-      />
-      <button className="button" onClick={handleOpenAllCategoriesModal}>
-        Edit/Delete Categories
-      </button>
-      <AllCategoriesModal
-        isOpen={isAllCategoriesModalOpen}
-        onClose={handleCloseAllCategoriesModal}
-        categories={categories}
-      />
-      <label htmlFor="category">Filter by Category:</label>
-      <select
-        id="categoryFilter"
-        defaultValue={categorySelected}
-        name="categoryFilter"
-        onChange={handleChangeFilter}
-      >
-        <option value="">Choose a category...</option>
-        {categories.map((category) => (
-          <option key={category.id} value={category.name}>
-            {category.name}
-          </option>
-        ))}
-      </select>
-      <label htmlFor="user">Filter by User:</label>
-      <select id="userFilter" defaultValue={selectedUser} name="userFilter" onChange={handleChangeFilterUser}>
-        <option value="">Choose an user...</option>
-        {fullUsers.map((user) => (
-          <option key={user.username} value={user.username}>
-            {user.username}
-          </option>
-        ))}
-      </select> 
+      {(role === "Owner" || role === "user") && (
+        <>
+          <button className="button" onClick={handleOpenCategoryModal}>
+            Add Category
+          </button>
+          <CategoryModal
+            isOpen={isCategoryModalOpen}
+            onClose={handleCloseCategoryModal}
+          />
+          <button className="button" onClick={handleOpenAllCategoriesModal}>
+            Edit/Delete Categories
+          </button>
+          <AllCategoriesModal
+            isOpen={isAllCategoriesModalOpen}
+            onClose={handleCloseAllCategoriesModal}
+            categories={categories}
+          />
+          <label htmlFor="category">Filter by Category:</label>
+          <select
+            id="categoryFilter"
+            defaultValue={categorySelected}
+            name="categoryFilter"
+            onChange={handleChangeFilter}
+          >
+            <option value="">Choose a category...</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+          <label htmlFor="user">Filter by User:</label>
+          <select
+            id="userFilter"
+            defaultValue={selectedUser}
+            name="userFilter"
+            onChange={handleChangeFilterUser}
+          >
+            <option value="">Choose an user...</option>
+            {fullUsers.map((user) => (
+              <option key={user.username} value={user.username}>
+                {user.username}
+              </option>
+            ))}
+          </select>
+        </>
+      )}
     </div>
   );
 }
