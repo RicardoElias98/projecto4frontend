@@ -30,6 +30,7 @@ function RegisterPage() {
     const { name, value } = event.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
     setWarnings((prevWarnings) => ({ ...prevWarnings, [name]: "" }));
+    console.log(formData);
   };
 
   //Submissão do formulário
@@ -41,7 +42,7 @@ function RegisterPage() {
     if (/\s/.test(formData.username)) {
       newWarnings.username = "Username cannot contain spaces";
     }
-    if ((formData.password = "")) {
+    if ((formData.password === "")) {
       newWarnings.password = "Password is required";
     }
     if (!/^(\S+\s+\S+)$/.test(formData.name.trim())) {
@@ -65,6 +66,7 @@ function RegisterPage() {
     setWarnings(newWarnings);
 
     if (Object.values(newWarnings).every((warning) => warning === "")) {
+      console.log(formData.password);
       fetch("http://localhost:8080/project4backend/rest/user/register", {
         method: "POST",
         headers: {
