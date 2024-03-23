@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { userStore } from "../stores/UserStore";
+import EditPasswordModal from "./EditPasswordModal";
 
 function EditProfileModal({ onClose, user }) {
   const [formData, setFormData] = useState({
@@ -12,8 +13,9 @@ function EditProfileModal({ onClose, user }) {
   });
 
   const updateLoginUser = userStore((state) => state.updateLoginUser);
-
+  
   const token = userStore.getState().token;
+  const [isEditPasswordModalOpen, setIsEditPasswordModalOpen] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -22,6 +24,10 @@ function EditProfileModal({ onClose, user }) {
 
   const handleCancel = () => {
     onClose();
+  };
+
+  const openEditPasswordModal = () => {
+    setIsEditPasswordModalOpen(true); 
   };
 
   const handleConfirm = () => {
@@ -50,7 +56,7 @@ function EditProfileModal({ onClose, user }) {
   };
 
   return (
-    <div className="modal" id="userInfoModal">
+    <div className={`modal ${isEditPasswordModalOpen ? 'dark-background' : ''}`} id="userInfoModal">
       <div className="modal-content">
         <h2 className="h2">Edit Profile</h2>
 
@@ -109,6 +115,9 @@ function EditProfileModal({ onClose, user }) {
         
         <button onClick={handleConfirm}> Confirm </button>
         <button onClick={handleCancel}> Cancel </button>
+        <button onClick={openEditPasswordModal}> Edit Password </button> 
+          {isEditPasswordModalOpen && <EditPasswordModal onClose={() => setIsEditPasswordModalOpen(false)}/>} 
+
       </div>
     </div>
   );

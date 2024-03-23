@@ -330,3 +330,8 @@ input {
 .label-add-user {
   text-align: center;
 }
+
+.dark-background {
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
