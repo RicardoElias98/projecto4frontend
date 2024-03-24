@@ -83,12 +83,15 @@ function TaskInfo({
       body: JSON.stringify(formData),
     }).then(function (response) {
       if (response.status === 401) {
-        console.log("Unauthorized");
+        alert("Unauthorized");
       } else if (response.status === 406) {
-        console.log("Failed. Task not updated. All elements are required");
+        alert("Failed. Task not updated. All elements are required");
       } else if (response.status === 400) {
-        console.log("Failed. Task not updated");
-      } else if (response.status === 200) {
+        alert("Failed. Task not updated");
+      } else if (response.status === 403) {
+        alert("This task doesn't belong to you")
+      }
+       else if (response.status === 200) {
         console.log("Task updated");
         updateCounter(counter + 1);
         setIsEditable(false);

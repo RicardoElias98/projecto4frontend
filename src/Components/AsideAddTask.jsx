@@ -75,6 +75,9 @@ function AsideAddTask() {
     });
   };
 
+
+
+
   const [formData, setFormData] = useState({
     taskName: "",
     taskDescription: "",
@@ -113,7 +116,6 @@ function AsideAddTask() {
       } else if (response.status === 400) {
         alert("All elements are required");
       } else if (response.status === 201) {
-        updateCounter(counter + 1);
         setFormData({
           taskName: "",
           taskDescription: "",
@@ -121,6 +123,7 @@ function AsideAddTask() {
           startDate: "",
           endDate: "",
         });
+        updateCounter(counter + 1);
       }
     });
   };
