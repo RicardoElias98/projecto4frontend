@@ -20,7 +20,6 @@ function TaskInfo({
   const counter = userStore((state) => state.counter);
 
   const updateCounter = userStore((state) => state.updateCounter);
- 
 
   const priorityMapping = {
     Low: 100,
@@ -45,7 +44,6 @@ function TaskInfo({
     status: status,
   });
 
-
   const [isEditable, setIsEditable] = useState(false);
 
   const handleChange = (event) => {
@@ -55,23 +53,17 @@ function TaskInfo({
     console.log("***", formData);
   };
 
-  
-
-  
-
-
   const handleConfirm = () => {
     console.log("1º", formData);
     console.log(formData.priority);
 
-     if (formData.priority == undefined || formData.priority == null) {
+    if (formData.priority == undefined || formData.priority == null) {
       console.log("Priority is required");
       formData.priority = priority;
     } else {
       formData.priority = priorityMapping[formData.priority];
     }
-    
-    
+
     console.log("2º", formData);
 
     if (formData.startDate > formData.endDate) {
@@ -88,7 +80,14 @@ function TaskInfo({
       });
       setIsEditable(false);
       onClose();
-    } else if (formData.title === "" || formData.description === "" || formData.category === "" || formData.startDate === "" || formData.endDate === "" || formData.priority === "") {
+    } else if (
+      formData.title === "" ||
+      formData.description === "" ||
+      formData.category === "" ||
+      formData.startDate === "" ||
+      formData.endDate === "" ||
+      formData.priority === ""
+    ) {
       alert("All elements are required");
       setFormData({
         title: taskName,
@@ -102,48 +101,46 @@ function TaskInfo({
       });
       setIsEditable(false);
       onClose();
+    } else {
+      fetch("http://localhost:8080/project4backend/rest/task/update", {
+        method: "PUT",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+          token: token,
+        },
+        body: JSON.stringify(formData),
+      }).then(function (response) {
+        if (response.status === 401) {
+          alert("Unauthorized");
+        } else if (response.status === 406) {
+          alert("Failed. Task not updated. All elements are required");
+        } else if (response.status === 400) {
+          alert("Failed. Task not updated");
+        } else if (response.status === 403) {
+          alert("This task doesn't belong to you");
+          setFormData({
+            title: taskName,
+            description: taskDescription,
+            category: category,
+            startDate: startDate,
+            endDate: endDate,
+            priority: priority,
+            id: taskId,
+            status: status,
+          });
+          setIsEditable(false);
+          onClose();
+        } else if (response.status === 200) {
+          console.log("Task updated");
+          updateCounter(counter + 1);
+          setIsEditable(false);
+          onClose();
+        }
+      });
     }
-    else {
-    fetch("http://localhost:8080/project4backend/rest/task/update", {
-      method: "PUT",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-        token: token,
-      },
-      body: JSON.stringify(formData),
-    }).then(function (response) {
-      if (response.status === 401) {
-        alert("Unauthorized");
-      } else if (response.status === 406) {
-        alert("Failed. Task not updated. All elements are required");
-      } else if (response.status === 400) {
-        alert("Failed. Task not updated");
-      } else if (response.status === 403) {
-        alert("This task doesn't belong to you")
-        setFormData({
-          title: taskName,
-          description: taskDescription,
-          category: category,
-          startDate: startDate,
-          endDate: endDate,
-          priority: priority,
-          id: taskId,
-          status: status,
-        });
-        setIsEditable(false);
-        onClose();
-      }
-       else if (response.status === 200) {
-        console.log("Task updated");
-        updateCounter(counter + 1);
-        setIsEditable(false);
-        onClose();
-      }
-    });
-  }};
+  };
 
-  
   const handleEditClick = () => {
     setIsEditable(true);
   };
@@ -163,7 +160,6 @@ function TaskInfo({
       } else if (response.status === 400) {
         alert("Failed. Your role have not permisson to that action");
       } else if (response.status === 200) {
-        alert("Task deleted");
         updateCounter(counter - 1);
         onClose();
       }
