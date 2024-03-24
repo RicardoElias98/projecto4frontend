@@ -2,10 +2,20 @@ import React, { useState } from "react";
 import "../general.css";
 import TaskInfo from "./TaskInfo";
 import { userStore } from "../stores/UserStore";
+import { useEffect } from "react";
 
 function Task({ title, priority, id, description, category, startDate, endDate, status}) {
   let priorityClass = "";
   const rolE = userStore.getState().loginUser.role;
+  const token = userStore.getState().token;
+  const [creator, setCreator] = useState(""); 
+
+  useEffect(() => {
+    creatorTask(id);
+    
+  }, []); 
+  
+  
 
   if (priority === 300) {
     priorityClass = "high-priority";
@@ -28,6 +38,26 @@ function Task({ title, priority, id, description, category, startDate, endDate, 
     event.dataTransfer.setData("data_id", id);
   };
 
+  const creatorTask = (id) => {
+    fetch(`http://localhost:8080/project4backend/rest/task/creator/${id}`, {
+      method: "GET",
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        token: token,
+
+      },
+    })
+    .then(async function (response) {
+      if (response.status === 401) {
+        console.log("Unauthorized");
+      } else if (response.status === 201) {
+        const data = await response.json();
+        console.log(data);
+        setCreator(data);
+      }
+    })};
+
   return (
     <>
       <div
@@ -36,7 +66,7 @@ function Task({ title, priority, id, description, category, startDate, endDate, 
         onDragStart={handleDragStart}
         onDoubleClick={handleOpenCategoryModal}
       >
-        {title}
+        {title} {creator}
       </div>
       <TaskInfo
         isOpen={isTaskInfoModalOpen}
@@ -53,6 +83,6 @@ function Task({ title, priority, id, description, category, startDate, endDate, 
       />
     </>
   );
-}
+} 
 
 export default Task;

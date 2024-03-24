@@ -218,6 +218,8 @@ function MainSB() {
       });
   };
 
+  
+
   return (
     <div className="board">
       <div className="total-column">
