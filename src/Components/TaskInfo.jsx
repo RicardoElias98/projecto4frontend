@@ -73,6 +73,37 @@ function TaskInfo({
     
     
     console.log("2º", formData);
+
+    if (formData.startDate > formData.endDate) {
+      alert("The initial date must be before the final date");
+      setFormData({
+        title: taskName,
+        description: taskDescription,
+        category: category,
+        startDate: startDate,
+        endDate: endDate,
+        priority: priority,
+        id: taskId,
+        status: status,
+      });
+      setIsEditable(false);
+      onClose();
+    } else if (formData.title === "" || formData.description === "" || formData.category === "" || formData.startDate === "" || formData.endDate === "" || formData.priority === "") {
+      alert("All elements are required");
+      setFormData({
+        title: taskName,
+        description: taskDescription,
+        category: category,
+        startDate: startDate,
+        endDate: endDate,
+        priority: priority,
+        id: taskId,
+        status: status,
+      });
+      setIsEditable(false);
+      onClose();
+    }
+    else {
     fetch("http://localhost:8080/project4backend/rest/task/update", {
       method: "PUT",
       headers: {
@@ -110,7 +141,7 @@ function TaskInfo({
         onClose();
       }
     });
-  };
+  }};
 
   
   const handleEditClick = () => {

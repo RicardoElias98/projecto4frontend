@@ -111,9 +111,6 @@ function AsideAddTask() {
     ) {
       alert("All elements are required");
       return;
-    } else if (task.startDate === task.endDate) {
-      alert("The initial date must be before the final date");
-      return;
     } else {
       fetch("http://localhost:8080/project4backend/rest/task/add", {
         method: "POST",
