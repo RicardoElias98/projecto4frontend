@@ -99,30 +99,47 @@ function AsideAddTask() {
     };
     console.log("PRIORITY:" + task.priority);
     event.preventDefault();
-    fetch("http://localhost:8080/project4backend/rest/task/add", {
-      method: "POST",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-        token: token,
-      },
-      body: JSON.stringify(task),
-    }).then(async function (response) {
-      if (response.status === 401) {
-        alert("Unauthorized");
-      } else if (response.status === 400) {
-        alert("All elements are required");
-      } else if (response.status === 201) {
-        setFormData({
-          taskName: "",
-          taskDescription: "",
-          category: "",
-          startDate: "",
-          endDate: "",
-        });
-        updateCounter(counter + 1);
-      }
-    });
+    if (task.startDate > task.endDate) {
+      alert("The initial date must be before the final date");
+      return;
+    } else if (
+      task.title === "" ||
+      task.description === "" ||
+      task.category === "" ||
+      task.startDate === "" ||
+      task.endDate === ""
+    ) {
+      alert("All elements are required");
+      return;
+    } else if (task.startDate === task.endDate) {
+      alert("The initial date must be before the final date");
+      return;
+    } else {
+      fetch("http://localhost:8080/project4backend/rest/task/add", {
+        method: "POST",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+          token: token,
+        },
+        body: JSON.stringify(task),
+      }).then(async function (response) {
+        if (response.status === 401) {
+          alert("Unauthorized");
+        } else if (response.status === 400) {
+          alert("All elements are required");
+        } else if (response.status === 201) {
+          setFormData({
+            taskName: "",
+            taskDescription: "",
+            category: "",
+            startDate: "",
+            endDate: "",
+          });
+          updateCounter(counter + 1);
+        }
+      });
+    }
   };
 
   const handleChangeFilter = (event) => {
@@ -203,7 +220,7 @@ function AsideAddTask() {
           Add task
         </button>
       </form>
-      {(role === "Owner") && (
+      {role === "Owner" && (
         <>
           <button className="button" onClick={handleOpenCategoryModal}>
             Add Category
