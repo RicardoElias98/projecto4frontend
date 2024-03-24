@@ -25,6 +25,15 @@ function UserInfo({
     role: role,
   });
 
+  const [warnings, setWarnings] = useState({
+    username: "",
+    password: "",
+    name: "",
+    email: "",
+    contactNumber: "",
+    userPhoto: "",
+  });
+
   const handleEditClick = () => {
     setIsEditable(true);
   };
@@ -44,40 +53,73 @@ function UserInfo({
   };
 
   const handleConfirm = () => {
-    console.log(formData);
-    fetch("http://localhost:8080/project4backend/rest/user/update", {
-      method: "PUT",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-        token: token,
-      },
-      body: JSON.stringify(formData),
-    }).then(function (response) {
-      if (response.status === 404) {
-        console.log("User not found");
-      } else if (response.status === 406) {
-        console.log("Failed. User not updated. All elements are required");
-      } else if (response.status === 400) {
-        console.log("Failed. User not updated");
-      } else if (response.status === 200) {
-        console.log("User updated");
-        onClose();
-      }
-    });
+    const newWarnings = {};
+
+    if (/\s/.test(formData.username)) {
+      newWarnings.username = "Username cannot contain spaces";
+    }
+    if (formData.password === "") {
+      newWarnings.password = "Password is required";
+    }
+    if (!/^(\S+\s+\S+)$/.test(formData.name.trim())) {
+      newWarnings.name = "Name must contain exactly two names";
+    }
+    if (!/^\S+@\S+\.\S+$/.test(formData.email.trim())) {
+      newWarnings.email = "Invalid email format";
+    }
+    if (!/^\d{9}$/.test(formData.contactNumber.trim())) {
+      newWarnings.contactNumber =
+        "Invalid phone number format (should contain exactly 9 digits)";
+    }
+
+    if (
+      formData.userPhoto.trim() &&
+      !formData.userPhoto.trim().startsWith("https://")
+    ) {
+      newWarnings.userPhoto = "Photo URL should start with 'https://'";
+    }
+
+    setWarnings(newWarnings);
+
+    if (Object.values(newWarnings).every((warning) => warning === "")) {
+      console.log(formData);
+      fetch("http://localhost:8080/project4backend/rest/user/update", {
+        method: "PUT",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+          token: token,
+        },
+        body: JSON.stringify(formData),
+      }).then(function (response) {
+        if (response.status === 404) {
+          console.log("User not found");
+        } else if (response.status === 406) {
+          console.log("Failed. User not updated. All elements are required");
+        } else if (response.status === 400) {
+          console.log("Failed. User not updated");
+        } else if (response.status === 200) {
+          console.log("User updated");
+          onClose();
+        }
+      });
+    }
   };
 
   const handleDelete = () => {
     const username = formData.username;
-    console.log(username)
-    fetch(`http://localhost:8080/project4backend/rest/user/delete/${username}`, {
-      method: "DELETE",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-        token: token,
-      },
-    }).then(function (response) {
+    console.log(username);
+    fetch(
+      `http://localhost:8080/project4backend/rest/user/delete/${username}`,
+      {
+        method: "DELETE",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+          token: token,
+        },
+      }
+    ).then(function (response) {
       if (response.status === 403) {
         console.log("Forbidden");
       } else if (response.status === 400) {
@@ -87,7 +129,7 @@ function UserInfo({
         onClose();
       }
     });
-  }
+  };
 
   return (
     <div className="modal" id="userInfoModal">
@@ -106,6 +148,7 @@ function UserInfo({
           readOnly={true}
           className={"input-read-only"}
         />
+        <div className="warning">{warnings.username}</div>
         <label className="h2" htmlFor="nameUser">
           Name of the User:
         </label>
@@ -118,6 +161,7 @@ function UserInfo({
           readOnly={!isEditable}
           className={isEditable ? "" : "input-read-only"}
         />
+        <div className="warning">{warnings.name}</div>
         <label className="h2" htmlFor="email">
           Email:
         </label>
@@ -130,6 +174,7 @@ function UserInfo({
           readOnly={!isEditable}
           className={isEditable ? "" : "input-read-only"}
         />
+        <div className="warning">{warnings.email}</div>
         <label className="h2" htmlFor="phoneNumber">
           Phone Number:
         </label>
@@ -142,6 +187,7 @@ function UserInfo({
           readOnly={!isEditable}
           className={isEditable ? "" : "input-read-only"}
         />
+        <div className="warning">{warnings.contactNumber}</div>
         <label className="h2" htmlFor="photo">
           Photo:
         </label>
@@ -154,6 +200,7 @@ function UserInfo({
           readOnly={!isEditable}
           className={isEditable ? "" : "input-read-only"}
         />
+        <div className="warning">{warnings.userPhoto}</div>
         {isEditable ? (
           <>
             <button className="button" onClick={handleConfirm}>
@@ -171,15 +218,15 @@ function UserInfo({
           </>
         ) : (
           <>
-          {rolE === "Owner" && (
-            <button className="button" onClick={handleEditClick}>
-              Edit
+            {rolE === "Owner" && (
+              <button className="button" onClick={handleEditClick}>
+                Edit
+              </button>
+            )}
+            <button className="button" onClick={handleClose}>
+              Cancel
             </button>
-          )}
-          <button className="button" onClick={handleClose}>
-            Cancel
-          </button>
-        </>
+          </>
         )}
       </div>
     </div>
