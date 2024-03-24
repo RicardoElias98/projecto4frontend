@@ -7,7 +7,7 @@ function MainUsers() {
   const token = userStore.getState().token;
   const [allUsers, setAllUsers] = useState([]);
   const updateAllUsers = userStore((state) => state.updateAllUsers);
-  const fullUsers = userStore.getState().users;
+  const fullUsers = userStore((state) => state.allUsers);
   
   
 

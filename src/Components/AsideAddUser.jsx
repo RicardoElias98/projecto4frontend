@@ -20,6 +20,8 @@ function AsideAddUser() {
     userPhoto: "",
   });
 
+   
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -67,6 +69,7 @@ function AsideAddUser() {
           alert("User with this username is already exists");
         } else if (response.status === 201) {
           alert("A new user is created");
+
           setFormData({
             username: "",
             password: "",
