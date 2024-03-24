@@ -9,7 +9,8 @@ function LoginPage() {
   const updateToken = userStore((state) => state.updateToken);
   const updateUserPhoto = userStore((state) => state.updateUserPhoto);
   const updateLoginUser = userStore((state) => state.updateLoginUser);
-  
+  const updateFirstName = userStore((state) => state.updateFirstName);
+  const loginUser = userStore((state) => state.loginUser);
 
   //Dados do formulário
   const [formData, setFormData] = useState({
@@ -37,7 +38,7 @@ function LoginPage() {
         Accept: "*/*",
         "Content-Type": "application/json",
         token: token,
-      }, 
+      },
     })
       .then(async function (response) {
         if (response.status === 404) {
@@ -45,13 +46,15 @@ function LoginPage() {
         } else if (response.status === 200) {
           const user = await response.json();
           updateLoginUser(user);
-          
+          console.log("user", user);
+          console.log("loginUser", loginUser)
+          updateFirstName(user.name.split(" ")[0]);
         }
       })
       .catch((error) => {
         console.error("Error fetching user:", error);
       });
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -87,12 +90,13 @@ function LoginPage() {
             } else if (response.status === 200) {
               const userPhoto = await response.text();
               updateUserPhoto(userPhoto);
+              console.log("loginUser", loginUser);
+              loginSucess();
             }
           })
           .catch((error) => {
             console.error("Error fetching user photo:", error);
           });
-        loginSucess();
       }
     });
   };

@@ -11,8 +11,7 @@ import EditProfileButton from "./EditProfileButton";
 function HtmlDefault() {
   const userPhoto = userStore.getState().userPhoto;
   const loginUser = userStore.getState().loginUser;
-  const fullName = userStore.getState().loginUser.name;
-  const firstName = userStore.getState().loginUser.name.split(" ")[0];
+  const firstName = userStore((state) => state.firstName);
   const role = userStore.getState().loginUser.role;
 
   return (

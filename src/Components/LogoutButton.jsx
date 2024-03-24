@@ -8,6 +8,7 @@ function LogoutButton() {
   const token = userStore.getState().token;
   const updateToken = userStore((state) => state.updateToken);
   const updateLoginUser = userStore((state) => state.updateLoginUser);
+  const updateFirstName = userStore((state) => state.updateFirstName);
 
   const logoutSucess = () => {
     
@@ -30,6 +31,7 @@ function LogoutButton() {
       } else if (response.status === 200) {
         updateToken("");
         updateLoginUser("");
+        updateFirstName("");
         logoutSucess();
       }
     });
