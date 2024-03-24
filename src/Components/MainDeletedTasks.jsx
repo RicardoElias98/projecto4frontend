@@ -87,7 +87,7 @@ function MainDeletedTasks() {
             startDate={task.startDate}
             endDate={task.endDate}
             status={task.status}
-            onDragStart={(event) => handleDragStart(event, task.id)}
+            onDragStart={role === "Owner" ? (event) => handleDragStart(event, task.id) : null}
           />
         ))}
       </section>

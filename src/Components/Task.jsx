@@ -32,8 +32,8 @@ function Task({ title, priority, id, description, category, startDate, endDate, 
     <>
       <div
         className={`task ${priorityClass}`}
-        draggable={rolE === "Owner" ? "true" : "false"}
-        onDragStart={rolE === "Owner" ? handleDragStart : null}
+        draggable="true"
+        onDragStart={handleDragStart}
         onDoubleClick={handleOpenCategoryModal}
       >
         {title}
