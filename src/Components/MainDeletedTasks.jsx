@@ -12,6 +12,7 @@ function MainDeletedTasks() {
   const tasks2 = tasksStore((state) => JSON.stringify(state.tasks));
   //const tasks2 = tasksStore((state) => JSON.stringify(state.tasks));
   const deletedTasks = tasks.filter((task) => task.active === false);
+  const role = userStore.getState().loginUser.role;
 
   const handleDragStart = (event, username) => {
     event.dataTransfer.setData("user_id", username);
@@ -69,29 +70,31 @@ function MainDeletedTasks() {
   };
   return (
     <div className="board">
-      <div className="total-column">
-        <div className="column-header" id="deleted-header">
-          <h2>Deleted</h2>
-        </div>
-        <div className="board-container" id="deleted-container">
-          <section className="board-column" id="deleted-column">
-            {deletedTasks.map((task) => (
-              <Task
-                key={task.id}
-                title={task.title}
-                priority={task.priority}
-                id={task.id}
-                description={task.description}
-                category={task.category}
-                startDate={task.startDate}
-                endDate={task.endDate}
-                status={task.status}
-                onDragStart={(event) => handleDragStart(event, task.id)}
-              />
-            ))}
-          </section>
-        </div>
-      </div>
+  <div className="total-column">
+    <div className="column-header" id="deleted-header">
+      <h2>Deleted</h2>
+    </div>
+    <div className="board-container" id="deleted-container">
+      <section className="board-column" id="deleted-column">
+        {deletedTasks.map((task) => (
+          <Task
+            key={task.id}
+            title={task.title}
+            priority={task.priority}
+            id={task.id}
+            description={task.description}
+            category={task.category}
+            startDate={task.startDate}
+            endDate={task.endDate}
+            status={task.status}
+            onDragStart={(event) => handleDragStart(event, task.id)}
+          />
+        ))}
+      </section>
+    </div>
+  </div>
+  {role === "Owner" && (
+    <>
       <div className="total-column">
         <div className="column-header" id="restore-header">
           <h2> Restore </h2>
@@ -118,7 +121,10 @@ function MainDeletedTasks() {
           <section className="board-column" id="restore-column"></section>
         </div>
       </div>
-    </div>
+    </>
+  )}
+</div>
+
   );
 }
 

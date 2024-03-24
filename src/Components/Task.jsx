@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "../general.css";
 import TaskInfo from "./TaskInfo";
+import { userStore } from "../stores/UserStore";
 
 function Task({ title, priority, id, description, category, startDate, endDate, status}) {
   let priorityClass = "";
+  const rolE = userStore.getState().loginUser.role;
 
   if (priority === 300) {
     priorityClass = "high-priority";
@@ -30,8 +32,8 @@ function Task({ title, priority, id, description, category, startDate, endDate, 
     <>
       <div
         className={`task ${priorityClass}`}
-        draggable="true"
-        onDragStart={handleDragStart}
+        draggable={rolE === "Owner" ? "true" : "false"}
+        onDragStart={rolE === "Owner" ? handleDragStart : null}
         onDoubleClick={handleOpenCategoryModal}
       >
         {title}
