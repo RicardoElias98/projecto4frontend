@@ -171,7 +171,7 @@ function UserInfo({
           </>
         ) : (
           <>
-          {role === "Owner" && (
+          {rolE === "Owner" && (
             <button className="button" onClick={handleEditClick}>
               Edit
             </button>
