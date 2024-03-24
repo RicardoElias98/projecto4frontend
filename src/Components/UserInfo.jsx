@@ -14,6 +14,7 @@ function UserInfo({
 }) {
   const [isEditable, setIsEditable] = useState(false);
   const token = userStore.getState().token;
+  const rolE = userStore.getState().loginUser.role;
 
   const [formData, setFormData] = useState({
     username: username,
@@ -170,13 +171,15 @@ function UserInfo({
           </>
         ) : (
           <>
+          {role === "Owner" && (
             <button className="button" onClick={handleEditClick}>
               Edit
             </button>
-            <button className="button" onClick={handleClose}>
-              Cancel
-            </button>
-          </>
+          )}
+          <button className="button" onClick={handleClose}>
+            Cancel
+          </button>
+        </>
         )}
       </div>
     </div>
