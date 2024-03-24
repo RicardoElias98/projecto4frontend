@@ -131,6 +131,7 @@ function TaskInfo({
     return null;
   }
   const handleClose = () => {
+    setIsEditable(false);
     onClose();
   };
 
