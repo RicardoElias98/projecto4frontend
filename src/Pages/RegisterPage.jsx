@@ -80,7 +80,7 @@ function RegisterPage() {
         } else if (response.status === 409) {
           alert("User with this username is already exists");
         } else if (response.status === 201) {
-          alert("A new user is created");
+          navigate("/loginPage", { replace: true });
         }
       });
     }

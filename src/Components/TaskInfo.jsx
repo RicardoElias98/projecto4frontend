@@ -90,6 +90,18 @@ function TaskInfo({
         alert("Failed. Task not updated");
       } else if (response.status === 403) {
         alert("This task doesn't belong to you")
+        setFormData({
+          title: taskName,
+          description: taskDescription,
+          category: category,
+          startDate: startDate,
+          endDate: endDate,
+          priority: priority,
+          id: taskId,
+          status: status,
+        });
+        setIsEditable(false);
+        onClose();
       }
        else if (response.status === 200) {
         console.log("Task updated");
