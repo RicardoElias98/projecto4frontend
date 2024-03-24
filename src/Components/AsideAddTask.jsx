@@ -75,9 +75,6 @@ function AsideAddTask() {
     });
   };
 
-
-
-
   const [formData, setFormData] = useState({
     taskName: "",
     taskDescription: "",
@@ -206,7 +203,7 @@ function AsideAddTask() {
           Add task
         </button>
       </form>
-      {(role === "Owner" || role === "user") && (
+      {(role === "Owner") && (
         <>
           <button className="button" onClick={handleOpenCategoryModal}>
             Add Category
@@ -223,36 +220,36 @@ function AsideAddTask() {
             onClose={handleCloseAllCategoriesModal}
             categories={categories}
           />
-          <label htmlFor="category">Filter by Category:</label>
-          <select
-            id="categoryFilter"
-            defaultValue={categorySelected}
-            name="categoryFilter"
-            onChange={handleChangeFilter}
-          >
-            <option value="">Choose a category...</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.name}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="user">Filter by User:</label>
-          <select
-            id="userFilter"
-            defaultValue={selectedUser}
-            name="userFilter"
-            onChange={handleChangeFilterUser}
-          >
-            <option value="">Choose an user...</option>
-            {fullUsers.map((user) => (
-              <option key={user.username} value={user.username}>
-                {user.username}
-              </option>
-            ))}
-          </select>
         </>
       )}
+      <label htmlFor="category">Filter by Category:</label>
+      <select
+        id="categoryFilter"
+        defaultValue={categorySelected}
+        name="categoryFilter"
+        onChange={handleChangeFilter}
+      >
+        <option value="">Choose a category...</option>
+        {categories.map((category) => (
+          <option key={category.id} value={category.name}>
+            {category.name}
+          </option>
+        ))}
+      </select>
+      <label htmlFor="user">Filter by User:</label>
+      <select
+        id="userFilter"
+        defaultValue={selectedUser}
+        name="userFilter"
+        onChange={handleChangeFilterUser}
+      >
+        <option value="">Choose an user...</option>
+        {fullUsers.map((user) => (
+          <option key={user.username} value={user.username}>
+            {user.username}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }
