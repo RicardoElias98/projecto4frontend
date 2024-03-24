@@ -11,6 +11,7 @@ import EditProfileButton from "../Components/EditProfileButton";
 function Users() {
   const userPhoto = userStore.getState().userPhoto;
   const firstName = userStore.getState().loginUser.name.split(" ")[0];
+  const role = userStore.getState().loginUser.role;
   return (
     <div className="App" id="outer-container">
       <header className="header" id="header-app">
@@ -26,9 +27,11 @@ function Users() {
         <LogoutButton />
       </header>
       <div className="container">
+        {role === "Owner" && (
         <aside className="aside" id="aside-app">
           <AsideAddUser />
         </aside>
+        )}
         <main className="main" id="main-app">
           <MainUsers />
         </main>
