@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "../general.css";
 import UserInfo from "./UserInfo";
+import { userStore } from "../stores/UserStore";
 
 function User({ username, name, email, contactNumber, role, photo }) {
   let roleClass = "";
 
   const [isUserInfoModalOpen, setUserInfoModalOpen] = useState(false);
+  const rolE = userStore.getState().loginUser.role;
 
   if (role === "developer") {
     roleClass = "dev";
@@ -31,8 +33,8 @@ function User({ username, name, email, contactNumber, role, photo }) {
     <>
       <div
         className={`role ${roleClass}`}
-        draggable="true"
-        onDragStart={handleDragStart}
+        draggable={rolE === "Owner" ? "true" : "false"}
+        onDragStart={rolE === "Owner" ? handleDragStart : null}
         onDoubleClick={handleOpenUserInfoModal}
       >
         <div className="photoUser">

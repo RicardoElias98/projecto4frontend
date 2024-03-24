@@ -9,6 +9,7 @@ function MainUsers() {
   const updateAllUsers = userStore((state) => state.updateAllUsers);
   const fullUsers = userStore.getState().users;
   
+  
 
   useEffect(() => {
     displayUsers();
@@ -116,7 +117,7 @@ function MainUsers() {
                   contactNumber={user.contactNumber}
                   photo={user.userPhoto}
                   role={user.role}
-                  onDragStart={(event) => handleDragStart(event, user.username)}
+                  onDragStart={(event) => handleDragStart(event, user.username)} 
                 />
               ))}
           </section>
