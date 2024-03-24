@@ -116,11 +116,11 @@ function TaskInfo({
       },
     }).then(function (response) {
       if (response.status === 401) {
-        console.log("Unauthorized");
+        alert("Unauthorized");
       } else if (response.status === 400) {
-        console.log("Failed. Task not deleted");
+        alert("Failed. Your role have not permisson to that action");
       } else if (response.status === 200) {
-        console.log("Task deleted");
+        alert("Task deleted");
         updateCounter(counter - 1);
         onClose();
       }
